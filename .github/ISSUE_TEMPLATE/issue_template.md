@@ -1,5 +1,5 @@
 ---
-name: Feature Request
+name: Issue Ticket
 about: Suggest a new feature or user story
 title: ''
 labels: enhancement
