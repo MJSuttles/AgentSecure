@@ -5,7 +5,7 @@ using AgentSecure.Models;
 
 namespace AgentSecure.Repositories
 {
-  public class AgentSecureRepository : IAgentSecureRepository
+  public class AgentSecureLoginRepository : IAgentSecureLoginRepository
   {
     // The repository layer is responsible for CRUD operations.
     // This repository class implements the IWeatherForecastRepository interface.
