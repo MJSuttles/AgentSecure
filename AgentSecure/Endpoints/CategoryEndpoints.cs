@@ -2,9 +2,9 @@ using System.Runtime.InteropServices;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
 
-namespace AgentSecure.Endpoints
+namespace AgentSecure.Endpoint
 {
-  public static class CategoryEndpoint
+  public static class CategoryEndpoints
   {
     // The endpoint layer is responsible for handling HTTP requests.
     // The endpoint layer will call the service layer to process business logic.
