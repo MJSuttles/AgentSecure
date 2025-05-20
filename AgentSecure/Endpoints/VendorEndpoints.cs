@@ -4,7 +4,7 @@ using AgentSecure.Models;
 
 namespace AgentSecure.Endpoint
 {
-  public static class VendorCategoryEndpoints
+  public static class VendorEndpoints
   {
     // The endpoint layer is responsible for handling HTTP requests.
     // The endpoint layer will call the service layer to process business logic.

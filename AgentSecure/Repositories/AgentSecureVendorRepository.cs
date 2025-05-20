@@ -13,7 +13,7 @@ namespace AgentSecure.Repositories
     // The repository layer will call the database context to do the actual CRUD operations.
     // The repository layer will return the data to the service layer.
 
-    private readonly AgentSecure _context;
+    private readonly AgentSecureDbContext _context;
 
     public AgentSecureVendorRepository(AgentSecureDbContext context)
     {

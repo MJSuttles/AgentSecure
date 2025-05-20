@@ -15,7 +15,7 @@ namespace AgentSecure.Repositories
 
     private readonly AgentSecureDbContext _context;
 
-    public AgentSecureRepository(AgentSecureDbContext context)
+    public AgentSecureLoginRepository(AgentSecureDbContext context)
     {
       _context = context;
     }
