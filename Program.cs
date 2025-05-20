@@ -13,8 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // ✅ Configure EF Core to use Npgsql with the connection string from appsettings.json or user secrets
-builder.Services.AddDbContext<GiveHubDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("GiveHub")));
+builder.Services.AddDbContext<AgentSecureDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("AgentSecure")));
 
 // ✅ Set the JSON serializer to avoid circular reference issues
 builder.Services.Configure<JsonOptions>(options =>
