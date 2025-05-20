@@ -4,8 +4,6 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSecure", "AgentSecure.csproj", "{E09EEEBA-4B9B-8D8E-C49A-BCD21E3B3475}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSecure.Tests", "AgentSecure.Tests\AgentSecure.Tests.csproj", "{2D3C03EB-E80E-4A21-9658-3D728BBEE11A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
