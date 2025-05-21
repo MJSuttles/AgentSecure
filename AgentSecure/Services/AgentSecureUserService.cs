@@ -39,6 +39,9 @@ namespace AgentSecure.Services
       return await _agentSecureUserRepository.GetUserByIdAsync(id);
     }
 
-
+    public async Task<User> CreateUserAsync(User user)
+    {
+      return await _agentSecureUserRepository.CreateUserAsync(user);
+    }
   }
 }
