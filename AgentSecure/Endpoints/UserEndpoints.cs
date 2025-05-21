@@ -49,7 +49,14 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status200OK)
       .Produces(StatusCodes.Status404NotFound);
 
-
+      group.MapPost("/", async (User user, IAgentSecureUserService agentSecureUserService) =>
+      {
+        return await agentSecureUserService.CreateUserAsync(user);
+      })
+      .WithName("CreateUser")
+      .WithOpenApi()
+      .Produces<User>(StatusCodes.Status201Created)
+      .Produces<User>(StatusCodes.Status400BadRequest);
     }
   }
 }
