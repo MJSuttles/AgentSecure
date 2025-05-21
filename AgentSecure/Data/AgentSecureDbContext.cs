@@ -33,7 +33,7 @@ namespace AgentSecure.Data
       // VendorCategory => Vendor (many-to-one)
       modelBuilder.Entity<VendorCategory>()
         .HasOne(vc => vc.Vendor)
-        .WithMany(v => VendorCategories)
+        .WithMany(v => v.VendorCategories)
         .HasForeignKey(vc => vc.VendorId)
         .OnDelete(DeleteBehavior.Cascade);
 

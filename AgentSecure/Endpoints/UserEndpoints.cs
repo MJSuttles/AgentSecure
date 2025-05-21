@@ -18,6 +18,38 @@ namespace AgentSecure.Endpoint
       var group = routes.MapGroup("/api/users").WithTags(nameof(User));
 
       // API calls
+
+      group.MapGet("/user/{id}", async (int id, IAgentSecureUserService agentSecureUserService) =>
+      {
+        var user = await agentSecureUserService.GetUserByIdAsync(id);
+
+        if (user == null)
+        {
+          return Results.NotFound($"User with ID {id} not found.");
+        }
+
+        var profile = new
+        {
+          user.Id,
+          user.Uid,
+          user.FirstName,
+          user.LastName,
+          user.Email,
+          user.Phone,
+          user.StreetAddress,
+          user.City,
+          user.State,
+          user.Zip
+        };
+
+        return Results.Ok(profile);
+      })
+      .WithName("GetUserById")
+      .WithOpenApi()
+      .Produces(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status404NotFound);
+
+
     }
   }
 }
