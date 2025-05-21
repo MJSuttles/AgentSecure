@@ -33,5 +33,12 @@ namespace AgentSecure.Services
     // To get the value, we use the await keyword.
 
     // seed data
+
+    public async Task<User?> GetUserByIdAsync(int id)
+    {
+      return await _agentSecureUserRepository.GetUserByIdAsync(id);
+    }
+
+
   }
 }

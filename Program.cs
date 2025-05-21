@@ -12,9 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 // ✅ Enables legacy timestamp behavior (for compatibility with DateTime)
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+builder.Configuration.AddUserSecrets<Program>();
+
 // ✅ Configure EF Core to use Npgsql with the connection string from appsettings.json or user secrets
 builder.Services.AddDbContext<AgentSecureDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("AgentSecure")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("AgentSecureDb")));
 
 // ✅ Set the JSON serializer to avoid circular reference issues
 builder.Services.Configure<JsonOptions>(options =>
