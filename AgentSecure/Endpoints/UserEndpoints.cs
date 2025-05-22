@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
+using AgentSecure.Services;
 
 namespace AgentSecure.Endpoint
 {
@@ -74,7 +75,13 @@ namespace AgentSecure.Endpoint
       .Produces<User>(StatusCodes.Status200OK)
       .Produces(StatusCodes.Status400BadRequest);
 
-
+      group.MapDelete("/{id}", async (int id, IAgentSecureUserService agentSecureUserService) =>
+      {
+        return await agentSecureUserService.DeleteUserAsync(id);
+      })
+      .WithName("DeleteUser")
+      .WithOpenApi()
+      .Produces<User>(StatusCodes.Status204NoContent);
     }
   }
 }
