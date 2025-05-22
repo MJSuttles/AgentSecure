@@ -14,5 +14,6 @@ namespace AgentSecure.Interfaces
     Task<User?> GetUserByIdAsync(int id);
     Task<User> CreateUserAsync(User user);
     Task<User> UpdateUserAsync(int id, User user);
+    Task<User> DeleteUserAsync(int id);
   }
 }

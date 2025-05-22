@@ -50,6 +50,9 @@ namespace AgentSecure.Services
       return await _agentSecureUserRepository.UpdateUserAsync(id, user);
     }
 
-
+    public async Task<User> DeleteUserAsync(int id)
+    {
+      return await _agentSecureUserRepository.DeleteUserAsync(id);
+    }
   }
 }
