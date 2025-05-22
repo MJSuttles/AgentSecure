@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using AgentSecure.Data;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
+using System.Reflection.Metadata.Ecma335;
 
 namespace AgentSecure.Repositories
 {
@@ -33,5 +34,27 @@ namespace AgentSecure.Repositories
       await _context.SaveChangesAsync();
       return user;
     }
+
+    public async Task<User> UpdateUserAsync(int id, User user)
+    {
+      var existingUser = await _context.Users.FindAsync(id);
+      if (existingUser == null)
+      {
+        return null;
+      }
+      existingUser.FirstName = user.FirstName;
+      existingUser.LastName = user.LastName;
+      existingUser.Email = user.Email;
+      existingUser.Phone = user.Phone;
+      existingUser.StreetAddress = user.StreetAddress;
+      existingUser.City = user.City;
+      existingUser.State = user.State;
+      existingUser.Zip = user.Zip;
+
+      await _context.SaveChangesAsync();
+      return existingUser;
+    }
+
+
   }
 }

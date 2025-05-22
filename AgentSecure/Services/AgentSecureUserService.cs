@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
 using AgentSecure.Repositories;
@@ -43,5 +44,12 @@ namespace AgentSecure.Services
     {
       return await _agentSecureUserRepository.CreateUserAsync(user);
     }
+
+    public async Task<User> UpdateUserAsync(int id, User user)
+    {
+      return await _agentSecureUserRepository.UpdateUserAsync(id, user);
+    }
+
+
   }
 }

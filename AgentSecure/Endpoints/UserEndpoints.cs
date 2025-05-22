@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
 
@@ -57,6 +58,23 @@ namespace AgentSecure.Endpoint
       .WithOpenApi()
       .Produces<User>(StatusCodes.Status201Created)
       .Produces<User>(StatusCodes.Status400BadRequest);
+
+      group.MapPut("/{id}", async (int id, User user, IAgentSecureUserService agentSecureUserService) =>
+      {
+        var updatedUser = await agentSecureUserService.UpdateUserAsync(id, user);
+
+        if (updatedUser == null)
+        {
+          return Results.NotFound($"User with ID {id} not found.");
+        }
+        return Results.Ok(updatedUser);
+      })
+      .WithName("UpdateUser")
+      .WithOpenApi()
+      .Produces<User>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status400BadRequest);
+
+
     }
   }
 }
