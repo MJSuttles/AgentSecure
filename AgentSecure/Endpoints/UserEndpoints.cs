@@ -21,6 +21,15 @@ namespace AgentSecure.Endpoint
 
       // API calls
 
+      group.MapGet("/", async (IAgentSecureUserService agentSecureUserService) =>
+      {
+        var users = await agentSecureUserService.GetAllUsersAsync();
+        return Results.Ok(users);
+      })
+      .WithName("GetAllUsers")
+      .WithOpenApi()
+      .Produces<List<User>>(StatusCodes.Status200OK);
+
       group.MapGet("/user/{id}", async (int id, IAgentSecureUserService agentSecureUserService) =>
       {
         var user = await agentSecureUserService.GetUserByIdAsync(id);

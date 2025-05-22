@@ -35,6 +35,11 @@ namespace AgentSecure.Services
 
     // seed data
 
+    public async Task<List<User>> GetAllUsersAsync()
+    {
+      return await _agentSecureUserRepository.GetAllUsersAsync();
+    }
+
     public async Task<User?> GetUserByIdAsync(int id)
     {
       return await _agentSecureUserRepository.GetUserByIdAsync(id);
