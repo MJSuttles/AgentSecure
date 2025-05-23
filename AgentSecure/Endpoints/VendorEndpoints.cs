@@ -18,6 +18,18 @@ namespace AgentSecure.Endpoint
       var group = routes.MapGroup("/api/vendors").WithTags(nameof(Vendor));
 
       // API calls
+
+      // Get All Vendors
+
+      group.MapGet("/", async (IAgentSecureVendorService agentSecureVendorService) =>
+      {
+        return await agentSecureVendorService.GetAllVendorsAsync();
+      })
+      .WithName("GetAllVendors")
+      .WithOpenApi()
+      .Produces<List<Vendor>>(StatusCodes.Status200OK);
+
+
     }
   }
 }
