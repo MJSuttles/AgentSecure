@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using AgentSecure.Data;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
+using System.Formats.Tar;
 
 namespace AgentSecure.Repositories
 {
@@ -21,5 +22,16 @@ namespace AgentSecure.Repositories
     }
 
     // Seed data
+
+    public async Task<List<Vendor>> GetAllVendorsAsync()
+    {
+      return await _context.Vendors
+        .Include(v => v.Logins)
+        .Include(v => v.VendorCategories)
+          .ThenInclude(vt => vt.Category)
+        .ToListAsync();
+    }
+
+
   }
 }

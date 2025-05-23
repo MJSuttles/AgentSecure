@@ -21,6 +21,8 @@ namespace AgentSecure.Endpoint
 
       // API calls
 
+      // Get All Users
+
       group.MapGet("/", async (IAgentSecureUserService agentSecureUserService) =>
       {
         var users = await agentSecureUserService.GetAllUsersAsync();
@@ -29,6 +31,8 @@ namespace AgentSecure.Endpoint
       .WithName("GetAllUsers")
       .WithOpenApi()
       .Produces<List<User>>(StatusCodes.Status200OK);
+
+      // Get User by Id
 
       group.MapGet("/user/{id}", async (int id, IAgentSecureUserService agentSecureUserService) =>
       {
@@ -60,6 +64,8 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status200OK)
       .Produces(StatusCodes.Status404NotFound);
 
+      // Create User
+
       group.MapPost("/", async (User user, IAgentSecureUserService agentSecureUserService) =>
       {
         return await agentSecureUserService.CreateUserAsync(user);
@@ -68,6 +74,8 @@ namespace AgentSecure.Endpoint
       .WithOpenApi()
       .Produces<User>(StatusCodes.Status201Created)
       .Produces<User>(StatusCodes.Status400BadRequest);
+
+      // Update User
 
       group.MapPut("/{id}", async (int id, User user, IAgentSecureUserService agentSecureUserService) =>
       {
@@ -83,6 +91,8 @@ namespace AgentSecure.Endpoint
       .WithOpenApi()
       .Produces<User>(StatusCodes.Status200OK)
       .Produces(StatusCodes.Status400BadRequest);
+
+      // Delete User
 
       group.MapDelete("/{id}", async (int id, IAgentSecureUserService agentSecureUserService) =>
       {
