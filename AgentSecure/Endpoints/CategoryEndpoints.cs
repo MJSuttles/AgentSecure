@@ -48,6 +48,16 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status400BadRequest);
 
       // Update Category
+      group.MapPut("/{id}", async (int id, Category category, IAgentSecureCategoryService agentSecureCategoryService) =>
+      {
+        return await agentSecureCategoryService.UpdateCategoryAsync(id, category);
+      })
+      .WithName("UpdateCategory")
+      .WithOpenApi()
+      .Produces<Category>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status400BadRequest);
+
+      // Delete Category
     }
   }
 }

@@ -47,5 +47,19 @@ namespace AgentSecure.Repositories
     }
 
     // Update an existing category
+    public async Task<Category> UpdateCategoryAsync(int id, Category category)
+    {
+      var existingCategory = await _context.Categories.FindAsync(id);
+      if (existingCategory == null)
+      {
+        return null;
+      }
+      existingCategory.CatName = category.CatName;
+
+      await _context.SaveChangesAsync();
+      return existingCategory;
+    }
+
+    // Delete a category
   }
 }
