@@ -53,6 +53,18 @@ namespace AgentSecure.Endpoint
       .WithOpenApi()
       .Produces<VendorDto>(StatusCodes.Status200OK)
       .Produces(StatusCodes.Status404NotFound);
+
+      // ✅ Create Vendor
+      group.MapPost("/", async (Vendor vendor, IAgentSecureVendorService agentSecureVendorService) =>
+      {
+        return await agentSecureVendorService.CreateVendorAsync(vendor);
+      })
+      .WithName("CreateVendor")
+      .WithOpenApi()
+      .Produces<Vendor>(StatusCodes.Status201Created)
+      .Produces(StatusCodes.Status400BadRequest);
+
+      
     }
   }
 }
