@@ -35,5 +35,16 @@ namespace AgentSecure.Repositories
           .ThenInclude(vc => vc.Category)
         .FirstOrDefaultAsync(v => v.Id == id);
     }
+
+    // Create a new vendor
+
+    public async Task<Vendor> CreateVendorAsync(Vendor vendor)
+    {
+      _context.Vendors.Add(vendor);
+      await _context.SaveChangesAsync();
+      return vendor;
+    }
+
+    
   }
 }
