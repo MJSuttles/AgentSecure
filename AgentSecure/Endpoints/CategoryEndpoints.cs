@@ -38,6 +38,16 @@ namespace AgentSecure.Endpoint
       .Produces<Category>(StatusCodes.Status200OK);
 
       // Create Category
+      group.MapPost("/", async (Category category, IAgentSecureCategoryService agentSecureCategoryService) =>
+      {
+        return await agentSecureCategoryService.CreateCategoryAsync(category);
+      })
+      .WithName("CreateCategory")
+      .WithOpenApi()
+      .Produces<Category>(StatusCodes.Status201Created)
+      .Produces(StatusCodes.Status400BadRequest);
+
+      // Update Category
     }
   }
 }
