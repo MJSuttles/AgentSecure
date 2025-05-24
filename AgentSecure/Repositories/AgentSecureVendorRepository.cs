@@ -9,6 +9,7 @@ namespace AgentSecure.Repositories
   {
     // The repository layer is responsible for CRUD operations.
     // This class implements IAgentSecureVendorRepository and uses the injected DbContext
+
     private readonly AgentSecureDbContext _context;
 
     public AgentSecureVendorRepository(AgentSecureDbContext context)
@@ -36,8 +37,7 @@ namespace AgentSecure.Repositories
         .FirstOrDefaultAsync(v => v.Id == id);
     }
 
-    // Create a new vendor
-
+    // ✅ Create a new vendor
     public async Task<Vendor> CreateVendorAsync(Vendor vendor)
     {
       _context.Vendors.Add(vendor);
@@ -45,6 +45,24 @@ namespace AgentSecure.Repositories
       return vendor;
     }
 
-    
+    // ✅ Update an existing vendor
+    public async Task<Vendor> UpdateVendorAsync(int id, Vendor vendor)
+    {
+      var existingVendor = await _context.Vendors.FindAsync(id);
+      if (existingVendor == null)
+      {
+        return null;
+      }
+
+      existingVendor.Name = vendor.Name;
+      existingVendor.Website = vendor.Website;
+      existingVendor.LoginWebsite = vendor.LoginWebsite;
+      existingVendor.Phone = vendor.Phone;
+      existingVendor.Consortium = vendor.Consortium;
+      existingVendor.Description = vendor.Description;
+
+      await _context.SaveChangesAsync();
+      return existingVendor;
+    }
   }
 }
