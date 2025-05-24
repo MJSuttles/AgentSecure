@@ -1,58 +1,47 @@
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
-using AgentSecure.Repositories;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AgentSecure.Services
 {
   public class AgentSecureCategoryService : IAgentSecureCategoryService
   {
-    // The service layer is responsible for processing business logic.
-    // Right now, the service layer is just calling the repository layer.
-    // The service layer will call the repository layer to do the actual CRUD operations.
-    // The service layer will return the data to the endpoint (controller).
-
     private readonly IAgentSecureCategoryRepository _agentSecureCategoryRepository;
-
-    // This constructor is used for dependency injection.
-    // We are injecting the ISimplyBooksAuthorRepository interface into the SimplyBooksAuthorRepository class.
-    // We inject the repository interface instead of the actual repository class.
-    // This is because we can easily mock the interface for unit testing.
-    // It also makes our code more flexible and easier to maintain.
-    // The type of DI used here is called constructor injection.
 
     public AgentSecureCategoryService(IAgentSecureCategoryRepository agentSecureCategoryRepository)
     {
       _agentSecureCategoryRepository = agentSecureCategoryRepository;
     }
 
-    // async means that the method is asynchronous.
-    // async methods can be awaited using the await keyword.
-    // async methods return a Task or Task<T>.
-    // Task represents an asynchronous operation that can return a value.
-    // Task<T> is a task that returns a value.
-    // To get the value, we use the await keyword.
-
-    // seed data
+    // Get all categories
     public async Task<List<Category>> GetAllCategoriesAsync()
     {
       return await _agentSecureCategoryRepository.GetAllCategoriesAsync();
     }
 
-    public async Task<Category> GetCategoryByIdAsync(int id)
+    // Get a single category by id
+    public async Task<Category?> GetCategoryByIdAsync(int id)
     {
       return await _agentSecureCategoryRepository.GetCategoryByIdAsync(id);
     }
 
+    // Create a new category
     public async Task<Category> CreateCategoryAsync(Category category)
     {
       return await _agentSecureCategoryRepository.CreateCategoryAsync(category);
     }
 
+    // Update a category
     public async Task<Category> UpdateCategoryAsync(int id, Category category)
     {
       return await _agentSecureCategoryRepository.UpdateCategoryAsync(id, category);
     }
 
-    
+    // Delete a category
+    public async Task<Category> DeleteCategoryAsync(int id)
+    {
+      return await _agentSecureCategoryRepository.DeleteCategoryAsync(id);
+    }
   }
 }

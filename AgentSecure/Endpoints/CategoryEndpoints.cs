@@ -58,6 +58,20 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status400BadRequest);
 
       // Delete Category
+      group.MapDelete("/{id}", async (int id, IAgentSecureCategoryService agentSecureCategoryService) =>
+      {
+        var deletedCategory = await agentSecureCategoryService.DeleteCategoryAsync(id);
+        if (deletedCategory == null)
+        {
+          return Results.NotFound($"No category found for Id {id}.");
+        }
+        
+        return Results.NoContent();
+      })
+      .WithName("DeleteCategory")
+      .WithOpenApi()
+      .Produces<Category>(StatusCodes.Status204NoContent)
+      .Produces(StatusCodes.Status404NotFound);
     }
   }
 }
