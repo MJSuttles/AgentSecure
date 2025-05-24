@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using AgentSecure.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AgentSecure.Data
 {
@@ -15,6 +16,10 @@ namespace AgentSecure.Data
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+      // Explicitly define the primary key for VendorCategory
+      modelBuilder.Entity<VendorCategory>()
+        .HasKey(vc => vc.Id);
 
       // Login => User (many-to-one)
       modelBuilder.Entity<Login>()

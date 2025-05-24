@@ -1,4 +1,4 @@
-namespace AgentSecure.Models.DbContextOptions
+namespace AgentSecure.DTOs
 {
   public class UserProfileDto
   {
