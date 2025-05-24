@@ -28,7 +28,16 @@ namespace AgentSecure.Endpoint
       .WithOpenApi()
       .Produces<List<Category>>(StatusCodes.Status200OK);
 
-      
+      // Get Category by Id
+      group.MapGet("/{id}", async (int id, IAgentSecureCategoryService agentSecureCategoryService) =>
+      {
+        return await agentSecureCategoryService.GetCategoryByIdAsync(id);
+      })
+      .WithName("GetCategoryById")
+      .WithOpenApi()
+      .Produces<Category>(StatusCodes.Status200OK);
+
+      // Create Category
     }
   }
 }

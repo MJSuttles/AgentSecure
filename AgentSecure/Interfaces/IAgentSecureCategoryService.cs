@@ -11,5 +11,6 @@ namespace AgentSecure.Interfaces
 
     // seed categories
     Task<List<Category>> GetAllCategoriesAsync();
+    Task<Category> GetCategoryByIdAsync(int id);
   }
 }
