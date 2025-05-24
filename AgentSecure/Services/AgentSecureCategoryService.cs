@@ -33,5 +33,11 @@ namespace AgentSecure.Services
     // To get the value, we use the await keyword.
 
     // seed data
+    public async Task<List<Category>> GetAllCategoriesAsync()
+    {
+      return await _agentSecureCategoryRepository.GetAllCategoriesAsync();
+    }
+
+    
   }
 }
