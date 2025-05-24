@@ -10,5 +10,6 @@ namespace AgentSecure.Interfaces
     // Interfaces can be used in unit testing to mock out the actual implementation.
 
     // seed categories
+    Task<List<Category>> GetAllCategoriesAsync();
   }
 }

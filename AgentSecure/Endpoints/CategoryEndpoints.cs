@@ -18,6 +18,17 @@ namespace AgentSecure.Endpoint
       var group = routes.MapGroup("/api/categories").WithTags(nameof(Category));
 
       // API calls
+
+      // Get All Categories
+      group.MapGet("/", async (IAgentSecureCategoryService agentSecureCategoryService) =>
+      {
+        return await agentSecureCategoryService.GetAllCategoriesAsync();
+      })
+      .WithName("GetAllCategories")
+      .WithOpenApi()
+      .Produces<List<Category>>(StatusCodes.Status200OK);
+
+      
     }
   }
 }

@@ -20,6 +20,14 @@ namespace AgentSecure.Repositories
       _context = context;
     }
 
-    // Seed data
+    // Get all categories
+    public async Task<List<Category>> GetAllCategoriesAsync()
+    {
+      return await _context.Categories
+        .Include(c => c.VendorCategories)
+          .ThenInclude(vc => vc.Vendor)
+        .ToListAsync();
+    }
+
   }
 }
