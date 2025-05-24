@@ -64,7 +64,17 @@ namespace AgentSecure.Endpoint
       .Produces<Vendor>(StatusCodes.Status201Created)
       .Produces(StatusCodes.Status400BadRequest);
 
-      
+      // ✅ Update Vendor
+      group.MapPut("/{id}", async (int id, Vendor vendor, IAgentSecureVendorService agentSecureVendorService) =>
+      {
+        return await agentSecureVendorService.UpdateVendorAsync(id, vendor);
+      })
+      .WithName("UpdateVendor")
+      .WithOpenApi()
+      .Produces<Vendor>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status400BadRequest);
+
+
     }
   }
 }
