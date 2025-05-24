@@ -96,11 +96,18 @@ namespace AgentSecure.Endpoint
 
       group.MapDelete("/{id}", async (int id, IAgentSecureUserService agentSecureUserService) =>
       {
-        return await agentSecureUserService.DeleteUserAsync(id);
+        var deletedUser = await agentSecureUserService.DeleteUserAsync(id);
+        if (deletedUser == null)
+        {
+          return Results.NotFound($"User with ID {id} not found.");
+        }
+        
+        return Results.NoContent();
       })
       .WithName("DeleteUser")
       .WithOpenApi()
-      .Produces<User>(StatusCodes.Status204NoContent);
+      .Produces<User>(StatusCodes.Status204NoContent)
+      .Produces(StatusCodes.Status404NotFound);
     }
   }
 }

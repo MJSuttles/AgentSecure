@@ -64,5 +64,18 @@ namespace AgentSecure.Repositories
       await _context.SaveChangesAsync();
       return existingVendor;
     }
+
+    // ✅ Delete a vendor
+    public async Task<Vendor> DeleteVendorAsync(int id)
+    {
+      var vendor = await _context.Vendors.FindAsync(id);
+      if (vendor != null)
+      {
+        _context.Vendors.Remove(vendor);
+        await _context.SaveChangesAsync();
+        return vendor;
+      }
+      return null;
+    }
   }
 }

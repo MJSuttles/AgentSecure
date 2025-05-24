@@ -74,7 +74,21 @@ namespace AgentSecure.Endpoint
       .Produces<Vendor>(StatusCodes.Status200OK)
       .Produces(StatusCodes.Status400BadRequest);
 
-
+      // ✅ Delete Vendor
+      group.MapDelete("/{id}", async (int id, IAgentSecureVendorService agentSecureVendorService) =>
+      {
+        var deletedVendor = await agentSecureVendorService.DeleteVendorAsync(id);
+        if (deletedVendor == null)
+        {
+          return Results.NotFound($"No vendor found for Id {id}.");
+        }
+        
+        return Results.NoContent();
+      })
+      .WithName("DeleteVendor")
+      .WithOpenApi()
+      .Produces<Vendor>(StatusCodes.Status204NoContent)
+      .Produces(StatusCodes.Status404NotFound);
     }
   }
 }
