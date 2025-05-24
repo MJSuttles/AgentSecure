@@ -48,6 +48,11 @@ namespace AgentSecure.Services
       return await _agentSecureCategoryRepository.CreateCategoryAsync(category);
     }
 
+    public async Task<Category> UpdateCategoryAsync(int id, Category category)
+    {
+      return await _agentSecureCategoryRepository.UpdateCategoryAsync(id, category);
+    }
+
     
   }
 }
