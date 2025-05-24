@@ -39,6 +39,11 @@ namespace AgentSecure.Services
       return await _agentSecureVendorRepository.GetAllVendorsAsync();
     }
 
+    public async Task<Vendor?> GetVendorByIdAsync(int id)
+    {
+      return await _agentSecureVendorRepository.GetVendorByIdAsync(id);
+    }
+
 
   }
 }

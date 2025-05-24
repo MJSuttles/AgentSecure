@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using AgentSecure.DTOs;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
 
@@ -6,21 +7,11 @@ namespace AgentSecure.Endpoint
 {
   public static class VendorEndpoints
   {
-    // The endpoint layer is responsible for handling HTTP requests.
-    // The endpoint layer will call the service layer to process business logic.
-    // The endpoint layer will return the data to the client.
-    // The endpoint layer is the entry point for the client to access the application.
-    // We must register this MapWeatherEndpoints method in the Program.cs file.
-    // You can click the reference to see where it is registered in the Program.cs file.
-
     public static void MapVendorEndpoints(this IEndpointRouteBuilder routes)
     {
       var group = routes.MapGroup("/api/vendors").WithTags(nameof(Vendor));
 
-      // API calls
-
-      // Get All Vendors
-
+      // ✅ Get All Vendors
       group.MapGet("/", async (IAgentSecureVendorService agentSecureVendorService) =>
       {
         return await agentSecureVendorService.GetAllVendorsAsync();
@@ -29,7 +20,39 @@ namespace AgentSecure.Endpoint
       .WithOpenApi()
       .Produces<List<Vendor>>(StatusCodes.Status200OK);
 
+      // ✅ Get Vendor by Id
+      group.MapGet("/{id}", async (int id, IAgentSecureVendorService agentSecureVendorService) =>
+      {
+        var vendor = await agentSecureVendorService.GetVendorByIdAsync(id);
 
+        if (vendor == null)
+        {
+          return Results.NotFound($"No vendor found for Id {id}.");
+        }
+
+        var dto = new VendorDto
+        {
+          Id = vendor.Id,
+          Name = vendor.Name,
+          Website = vendor.Website,
+          LoginWebsite = vendor.LoginWebsite,
+          Phone = vendor.Phone,
+          Consortium = vendor.Consortium,
+          Description = vendor.Description,
+          Categories = vendor.VendorCategories != null
+            ? vendor.VendorCategories
+                .Where(vc => vc != null && vc.Category != null)
+                .Select(vc => vc.Category.CatName)
+                .ToList()
+            : new List<string>()
+        };
+
+        return Results.Ok(dto);
+      })
+      .WithName("GetVendorById")
+      .WithOpenApi()
+      .Produces<VendorDto>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status404NotFound);
     }
   }
 }

@@ -12,5 +12,6 @@ namespace AgentSecure.Interfaces
     // seed categories
 
     Task<List<Vendor>> GetAllVendorsAsync();
+    Task<Vendor?> GetVendorByIdAsync(int id);
   }
 }
