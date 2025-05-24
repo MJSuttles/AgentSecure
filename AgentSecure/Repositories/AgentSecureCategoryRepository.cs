@@ -38,6 +38,14 @@ namespace AgentSecure.Repositories
         .FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    
+    // Create a new category
+    public async Task<Category> CreateCategoryAsync(Category category)
+    {
+      _context.Categories.Add(category);
+      await _context.SaveChangesAsync();
+      return category;
+    }
+
+    // Update an existing category
   }
 }
