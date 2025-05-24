@@ -29,5 +29,15 @@ namespace AgentSecure.Repositories
         .ToListAsync();
     }
 
+    // Get a specific category by ID
+    public async Task<Category> GetCategoryByIdAsync(int id)
+    {
+      return await _context.Categories
+        .Include(c => c.VendorCategories)
+          .ThenInclude(vc => vc.Vendor)
+        .FirstOrDefaultAsync(c => c.Id == id);
+    }
+
+    
   }
 }
