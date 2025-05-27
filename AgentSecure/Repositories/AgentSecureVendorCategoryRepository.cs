@@ -33,5 +33,16 @@ namespace AgentSecure.Repositories
 
     // Delete VendorCategory
 
+    public async Task<VendorCategory> DeleteVendorCategoryAsync(int id)
+    {
+      var vendorCategory = await _context.VendorCategories.FindAsync(id);
+      if (vendorCategory != null)
+      {
+        _context.VendorCategories.Remove(vendorCategory);
+        await _context.SaveChangesAsync();
+        return vendorCategory;
+      }
+      return null;
+    }
   }
 }

@@ -41,5 +41,9 @@ namespace AgentSecure.Services
     }
 
     // Delete VendorCategory
+    public async Task<VendorCategory> DeleteVendorCategoryAsync(int id)
+    {
+      return await _agentSecureVendorCategoryRepository.DeleteVendorCategoryAsync(id);
+    }
   }
 }

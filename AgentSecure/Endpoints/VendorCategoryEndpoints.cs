@@ -32,7 +32,13 @@ namespace AgentSecure.Endpoint
 
       // Delete VendorCategory
 
-
+      group.MapDelete("/{id}", async (int id, IAgentSecureVendorCategoryService agentSecureVendorCategoryService) =>
+      {
+        return await agentSecureVendorCategoryService.DeleteVendorCategoryAsync(id);
+      })
+      .WithName("DeleteVendorCategory")
+      .WithOpenApi()
+      .Produces<VendorCategory>(StatusCodes.Status204NoContent);
     }
   }
 }
