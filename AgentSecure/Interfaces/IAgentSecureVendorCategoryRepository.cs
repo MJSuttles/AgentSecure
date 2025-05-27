@@ -11,5 +11,6 @@ namespace AgentSecure.Interfaces
 
     // seed categories
     Task<VendorCategory> CreateVendorCategoryAsync(VendorCategory vendorCategory);
+    Task<VendorCategory> DeleteVendorCategoryAsync(int id);
   }
 }
