@@ -41,7 +41,7 @@ namespace AgentSecure.Repositories
     }
 
     // ✅ Update an existing category
-    public async Task<Category?> UpdateCategoryAsync(int id, Category category)
+    public async Task<Category> UpdateCategoryAsync(int id, Category category)
     {
       var existingCategory = await _context.Categories.FindAsync(id);
       if (existingCategory == null)
@@ -55,7 +55,7 @@ namespace AgentSecure.Repositories
     }
 
     // ✅ Delete a category
-    public async Task<Category?> DeleteCategoryAsync(int id)
+    public async Task<Category> DeleteCategoryAsync(int id)
     {
       var existingCategory = await _context.Categories.FindAsync(id);
       if (existingCategory != null)

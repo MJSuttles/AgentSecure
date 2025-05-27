@@ -21,5 +21,17 @@ namespace AgentSecure.Repositories
     }
 
     // Seed data
+
+    // Create VendorCategory
+
+    public async Task<VendorCategory> CreateVendorCategoryAsync(VendorCategory vendorCategory)
+    {
+      _context.VendorCategories.Add(vendorCategory);
+      await _context.SaveChangesAsync();
+      return vendorCategory;
+    }
+
+    // Delete VendorCategory
+
   }
 }
