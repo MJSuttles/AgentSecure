@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
+using AgentSecure.Services;
 
 namespace AgentSecure.Endpoint
 {
@@ -18,6 +19,20 @@ namespace AgentSecure.Endpoint
       var group = routes.MapGroup("/api/vendorcategories").WithTags(nameof(VendorCategory));
 
       // API calls
+
+      // Create VendorCategory
+      group.MapPost("/", async (VendorCategory vendorCategory, IAgentSecureVendorCategoryService agentSecureVendorCategoryService) =>
+      {
+        return await agentSecureVendorCategoryService.CreateVendorCategoryAsync(vendorCategory);
+      })
+      .WithName("CreateVendorCategory")
+      .WithOpenApi()
+      .Produces<VendorCategory>(StatusCodes.Status201Created)
+      .Produces(StatusCodes.Status400BadRequest);
+
+      // Delete VendorCategory
+
+
     }
   }
 }

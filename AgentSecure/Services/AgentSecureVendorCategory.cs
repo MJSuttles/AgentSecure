@@ -33,5 +33,13 @@ namespace AgentSecure.Services
     // To get the value, we use the await keyword.
 
     // seed data
+
+    // Create VendorCategory
+    public async Task<VendorCategory> CreateVendorCategoryAsync(VendorCategory vendorCategory)
+    {
+      return await _agentSecureVendorCategoryRepository.CreateVendorCategoryAsync(vendorCategory);
+    }
+
+    // Delete VendorCategory
   }
 }
