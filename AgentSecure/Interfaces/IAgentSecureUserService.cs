@@ -15,7 +15,7 @@ namespace AgentSecure.Interfaces
     Task<List<UserProfileDto>> GetAllUsersAsync();
     Task<UserProfileDto?> GetUserByIdAsync(int id);
     Task<User> CreateUserAsync(User user);
-    Task<User> UpdateUserAsync(int id, User user);
+    Task<UserProfileUpdateDto> UpdateUserAsync(int id, UserProfileUpdateDto userProfileUpdateDto);
     Task<User> DeleteUserAsync(int id);
   }
 }

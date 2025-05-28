@@ -76,9 +76,9 @@ namespace AgentSecure.Endpoint
 
       // Update User
 
-      group.MapPut("/{id}", async (int id, User user, IAgentSecureUserService agentSecureUserService) =>
+      group.MapPut("/{id}", async (int id, UserProfileUpdateDto userProfileUpdateDto, IAgentSecureUserService agentSecureUserService) =>
       {
-        var updatedUser = await agentSecureUserService.UpdateUserAsync(id, user);
+        var updatedUser = await agentSecureUserService.UpdateUserAsync(id, userProfileUpdateDto);
 
         if (updatedUser == null)
         {
@@ -88,7 +88,7 @@ namespace AgentSecure.Endpoint
       })
       .WithName("UpdateUser")
       .WithOpenApi()
-      .Produces<User>(StatusCodes.Status200OK)
+      .Produces<UserProfileUpdateDto>(StatusCodes.Status200OK)
       .Produces(StatusCodes.Status400BadRequest);
 
       // Delete User

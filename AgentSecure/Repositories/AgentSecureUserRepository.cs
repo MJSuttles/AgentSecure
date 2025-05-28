@@ -57,7 +57,7 @@ namespace AgentSecure.Repositories
       return user;
     }
 
-    public async Task<User> UpdateUserAsync(int id, User user)
+    public async Task<UserProfileUpdateDto> UpdateUserAsync(int id, UserProfileUpdateDto userProfileUpdateDto)
     {
       var existingUser = await _context.Users.FindAsync(id);
       if (existingUser == null)
@@ -65,17 +65,28 @@ namespace AgentSecure.Repositories
         return null;
       }
 
-      existingUser.FirstName = user.FirstName;
-      existingUser.LastName = user.LastName;
-      existingUser.Email = user.Email;
-      existingUser.Phone = user.Phone;
-      existingUser.StreetAddress = user.StreetAddress;
-      existingUser.City = user.City;
-      existingUser.State = user.State;
-      existingUser.Zip = user.Zip;
+      existingUser.FirstName = userProfileUpdateDto.FirstName;
+      existingUser.LastName = userProfileUpdateDto.LastName;
+      existingUser.Email = userProfileUpdateDto.Email;
+      existingUser.Phone = userProfileUpdateDto.Phone;
+      existingUser.StreetAddress = userProfileUpdateDto.StreetAddress;
+      existingUser.City = userProfileUpdateDto.City;
+      existingUser.State = userProfileUpdateDto.State;
+      existingUser.Zip = userProfileUpdateDto.Zip;
 
       await _context.SaveChangesAsync();
-      return existingUser;
+
+      return new UserProfileUpdateDto
+      {
+        FirstName = existingUser.FirstName,
+        LastName = existingUser.LastName,
+        Email = existingUser.Email,
+        Phone = existingUser.Phone,
+        StreetAddress = existingUser.StreetAddress,
+        City = existingUser.City,
+        State = existingUser.State,
+        Zip = existingUser.Zip
+      };
     }
 
     public async Task<User> DeleteUserAsync(int id)
