@@ -1,4 +1,5 @@
 using AgentSecure.Models;
+using AgentSecure.DTOs;
 
 namespace AgentSecure.Interfaces
 {
@@ -10,8 +11,8 @@ namespace AgentSecure.Interfaces
     // Interfaces can be used in unit testing to mock out the actual implementation.
 
     // seed categories
-    Task<List<Login>> GetAllLoginsAsync();
-    Task<Login?> GetLoginByIdAsync(int id);
+    Task<List<LoginDto>> GetAllLoginsAsync();
+    Task<LoginDto?> GetLoginByIdAsync(int id);
     Task<Login> CreateLoginAsync(Login login);
     Task<Login> UpdateLoginAsync(int id, Login login);
     Task<Login> DeleteLoginAsync(int id);

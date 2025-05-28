@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using AgentSecure.Data;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
+using AgentSecure.DTOs;
 
 namespace AgentSecure.Repositories
 {
@@ -24,26 +25,35 @@ namespace AgentSecure.Repositories
 
     // Get all logins with related vendor and user info
 
-    public async Task<List<Login>> GetAllLoginsAsync()
+    public async Task<List<LoginDto>> GetAllLoginsAsync()
     {
       return await _context.Logins
-        .Include(l => l.User)
-        .Include(l => l.Vendor)
-          .ThenInclude(v => v.VendorCategories)
-            .ThenInclude(vc => vc.Category)
-            .ToListAsync();
+        .Select(l => new LoginDto
+        {
+          Username = l.Username,
+          Email = l.Email,
+          Password = l.Password,
+          RegApproved = l.RegApproved,
+          TrainingComplete = l.TrainingComplete
+        })
+        .ToListAsync();
     }
 
     // Get a specific login by ID with related vendor and user info
 
-    public async Task<Login?> GetLoginByIdAsync(int id)
+    public async Task<LoginDto> GetLoginByIdAsync(int id)
     {
       return await _context.Logins
-        .Include(l => l.User)
-        .Include(l => l.Vendor)
-          .ThenInclude(v => v.VendorCategories)
-            .ThenInclude(vc => vc.Category)
-        .FirstOrDefaultAsync(l => l.Id == id);
+        .Where(l => l.Id == id)
+        .Select(l => new LoginDto
+        {
+          Username = l.Username,
+          Email = l.Email,
+          Password = l.Password,
+          RegApproved = l.RegApproved,
+          TrainingComplete = l.TrainingComplete
+        })
+        .FirstOrDefaultAsync();
     }
 
     // Create a new login
