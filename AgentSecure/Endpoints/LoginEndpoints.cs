@@ -28,6 +28,17 @@ namespace AgentSecure.Endpoint
       .WithName("GetAllLogins")
       .WithOpenApi()
       .Produces<List<Login>>(StatusCodes.Status200OK);
+
+      // Get Login by Id
+      group.MapGet("/{id}", async (int id, IAgentSecureLoginService agentSecureLoginService) =>
+      {
+        return await agentSecureLoginService.GetLoginByIdAsync(id);
+      })
+      .WithName("GetLoginById")
+      .WithOpenApi()
+      .Produces<Login>(StatusCodes.Status200OK);
+
+      // Create Login
     }
   }
 }

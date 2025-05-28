@@ -34,6 +34,18 @@ namespace AgentSecure.Repositories
             .ToListAsync();
     }
 
+    // Get a specific login by ID with related vendor and user info
+
+    public async Task<Login?> GetLoginByIdAsync(int id)
+    {
+      return await _context.Logins
+        .Include(l => l.User)
+        .Include(l => l.Vendor)
+          .ThenInclude(v => v.VendorCategories)
+            .ThenInclude(vc => vc.Category)
+        .FirstOrDefaultAsync(l => l.Id == id);
+    }
+
 
   }
 }
