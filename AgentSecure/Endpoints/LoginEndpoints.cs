@@ -39,6 +39,16 @@ namespace AgentSecure.Endpoint
       .Produces<Login>(StatusCodes.Status200OK);
 
       // Create Login
+      group.MapPost("/", async (Login login, IAgentSecureLoginService agentSecureLoginService) =>
+      {
+        return await agentSecureLoginService.CreateLoginAsync(login);
+      })
+      .WithName("CreateLogin")
+      .WithOpenApi()
+      .Produces<Login>(StatusCodes.Status201Created)
+      .Produces(StatusCodes.Status400BadRequest);
+
+      // Update Login
     }
   }
 }
