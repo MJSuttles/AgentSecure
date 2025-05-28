@@ -2,6 +2,7 @@ using System.Security.Cryptography.X509Certificates;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
 using AgentSecure.Repositories;
+using AgentSecure.DTOs;
 
 namespace AgentSecure.Services
 {
@@ -35,12 +36,12 @@ namespace AgentSecure.Services
 
     // seed data
 
-    public async Task<List<User>> GetAllUsersAsync()
+    public async Task<List<UserProfileDto>> GetAllUsersAsync()
     {
       return await _agentSecureUserRepository.GetAllUsersAsync();
     }
 
-    public async Task<User?> GetUserByIdAsync(int id)
+    public async Task<UserProfileDto?> GetUserByIdAsync(int id)
     {
       return await _agentSecureUserRepository.GetUserByIdAsync(id);
     }

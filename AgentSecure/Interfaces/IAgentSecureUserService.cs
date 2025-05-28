@@ -1,4 +1,5 @@
 using AgentSecure.Models;
+using AgentSecure.DTOs;
 
 namespace AgentSecure.Interfaces
 {
@@ -11,8 +12,8 @@ namespace AgentSecure.Interfaces
 
     // seed categories
 
-    Task<List<User>> GetAllUsersAsync();
-    Task<User?> GetUserByIdAsync(int id);
+    Task<List<UserProfileDto>> GetAllUsersAsync();
+    Task<UserProfileDto?> GetUserByIdAsync(int id);
     Task<User> CreateUserAsync(User user);
     Task<User> UpdateUserAsync(int id, User user);
     Task<User> DeleteUserAsync(int id);

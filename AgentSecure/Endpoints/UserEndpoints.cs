@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
 using AgentSecure.Services;
+using AgentSecure.DTOs;
 
 namespace AgentSecure.Endpoint
 {
@@ -30,7 +31,7 @@ namespace AgentSecure.Endpoint
       })
       .WithName("GetAllUsers")
       .WithOpenApi()
-      .Produces<List<User>>(StatusCodes.Status200OK);
+      .Produces<List<UserProfileDto>>(StatusCodes.Status200OK);
 
       // Get User by Id
 
@@ -45,8 +46,6 @@ namespace AgentSecure.Endpoint
 
         var profile = new
         {
-          user.Id,
-          user.Uid,
           user.FirstName,
           user.LastName,
           user.Email,
@@ -61,7 +60,7 @@ namespace AgentSecure.Endpoint
       })
       .WithName("GetUserById")
       .WithOpenApi()
-      .Produces(StatusCodes.Status200OK)
+      .Produces<UserProfileDto?>(StatusCodes.Status200OK)
       .Produces(StatusCodes.Status404NotFound);
 
       // Create User
@@ -101,7 +100,7 @@ namespace AgentSecure.Endpoint
         {
           return Results.NotFound($"User with ID {id} not found.");
         }
-        
+
         return Results.NoContent();
       })
       .WithName("DeleteUser")

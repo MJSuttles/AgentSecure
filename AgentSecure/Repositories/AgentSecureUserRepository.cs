@@ -2,18 +2,12 @@ using Microsoft.EntityFrameworkCore;
 using AgentSecure.Data;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
-using System.Reflection.Metadata.Ecma335;
+using AgentSecure.DTOs;
 
 namespace AgentSecure.Repositories
 {
   public class AgentSecureUserRepository : IAgentSecureUserRepository
   {
-    // The repository layer is responsible for CRUD operations.
-    // This repository class implements the IWeatherForecastRepository interface.
-    // Remember: the interface is a contract that defines methods that a class MUST implement.
-    // The repository layer will call the database context to do the actual CRUD operations.
-    // The repository layer will return the data to the service layer.
-
     private readonly AgentSecureDbContext _context;
 
     public AgentSecureUserRepository(AgentSecureDbContext context)
@@ -21,16 +15,39 @@ namespace AgentSecure.Repositories
       _context = context;
     }
 
-    // Seed data
-
-    public async Task<List<User>> GetAllUsersAsync()
+    public async Task<List<UserProfileDto>> GetAllUsersAsync()
     {
-      return await _context.Users.ToListAsync();
+      return await _context.Users
+        .Select(u => new UserProfileDto
+        {
+          FirstName = u.FirstName,
+          LastName = u.LastName,
+          Email = u.Email,
+          Phone = u.Phone,
+          StreetAddress = u.StreetAddress,
+          City = u.City,
+          State = u.State,
+          Zip = u.Zip
+        })
+        .ToListAsync();
     }
 
-    public async Task<User?> GetUserByIdAsync(int id)
+    public async Task<UserProfileDto?> GetUserByIdAsync(int id)
     {
-      return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+      return await _context.Users
+        .Where(u => u.Id == id)
+        .Select(u => new UserProfileDto
+        {
+          FirstName = u.FirstName,
+          LastName = u.LastName,
+          Email = u.Email,
+          Phone = u.Phone,
+          StreetAddress = u.StreetAddress,
+          City = u.City,
+          State = u.State,
+          Zip = u.Zip
+        })
+        .FirstOrDefaultAsync();
     }
 
     public async Task<User> CreateUserAsync(User user)
@@ -47,6 +64,7 @@ namespace AgentSecure.Repositories
       {
         return null;
       }
+
       existingUser.FirstName = user.FirstName;
       existingUser.LastName = user.LastName;
       existingUser.Email = user.Email;
