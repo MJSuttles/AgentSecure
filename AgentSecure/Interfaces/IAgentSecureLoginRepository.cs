@@ -14,7 +14,7 @@ namespace AgentSecure.Interfaces
     Task<List<LoginDto>> GetAllLoginsAsync();
     Task<LoginDto?> GetLoginByIdAsync(int id);
     Task<Login> CreateLoginAsync(Login login);
-    Task<Login> UpdateLoginAsync(int id, Login login);
+    Task<Login> UpdateLoginAsync(int id, LoginUpdateDto loginUpdateDto);
     Task<Login> DeleteLoginAsync(int id);
   }
 }
