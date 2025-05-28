@@ -12,47 +12,27 @@ namespace AgentSecure.Endpoint
       var group = routes.MapGroup("/api/vendors").WithTags(nameof(Vendor));
 
       // ✅ Get All Vendors
-      group.MapGet("/", async (IAgentSecureVendorService agentSecureVendorService) =>
+      group.MapGet("/", async (IAgentSecureVendorService service) =>
       {
-        return await agentSecureVendorService.GetAllVendorsAsync();
+        return await service.GetAllVendorsAsync();
       })
       .WithName("GetAllVendors")
       .WithOpenApi()
-      .Produces<List<Vendor>>(StatusCodes.Status200OK);
+      .Produces<List<VendorDto>>(StatusCodes.Status200OK);
 
       // ✅ Get Vendor by Id
-      group.MapGet("/{id}", async (int id, IAgentSecureVendorService agentSecureVendorService) =>
+      group.MapGet("/{id}", async (int id, IAgentSecureVendorService service) =>
       {
-        var vendor = await agentSecureVendorService.GetVendorByIdAsync(id);
-
-        if (vendor == null)
-        {
-          return Results.NotFound($"No vendor found for Id {id}.");
-        }
-
-        var dto = new VendorDto
-        {
-          Id = vendor.Id,
-          Name = vendor.Name,
-          Website = vendor.Website,
-          LoginWebsite = vendor.LoginWebsite,
-          Phone = vendor.Phone,
-          Consortium = vendor.Consortium,
-          Description = vendor.Description,
-          Categories = vendor.VendorCategories != null
-            ? vendor.VendorCategories
-                .Where(vc => vc != null && vc.Category != null)
-                .Select(vc => vc.Category.CatName)
-                .ToList()
-            : new List<string>()
-        };
-
-        return Results.Ok(dto);
+        var vendor = await service.GetVendorByIdAsync(id);
+        return vendor == null
+          ? Results.NotFound($"No vendor found for Id {id}.")
+          : Results.Ok(vendor);
       })
       .WithName("GetVendorById")
       .WithOpenApi()
       .Produces<VendorDto>(StatusCodes.Status200OK)
       .Produces(StatusCodes.Status404NotFound);
+
 
       // ✅ Create Vendor
       group.MapPost("/", async (Vendor vendor, IAgentSecureVendorService agentSecureVendorService) =>
@@ -65,13 +45,13 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status400BadRequest);
 
       // ✅ Update Vendor
-      group.MapPut("/{id}", async (int id, Vendor vendor, IAgentSecureVendorService agentSecureVendorService) =>
+      group.MapPut("/{id}", async (int id, VendorUpdateDto vendorUpdateDto, IAgentSecureVendorService agentSecureVendorService) =>
       {
-        return await agentSecureVendorService.UpdateVendorAsync(id, vendor);
+        return await agentSecureVendorService.UpdateVendorAsync(id, vendorUpdateDto);
       })
       .WithName("UpdateVendor")
       .WithOpenApi()
-      .Produces<Vendor>(StatusCodes.Status200OK)
+      .Produces<VendorUpdateDto>(StatusCodes.Status200OK)
       .Produces(StatusCodes.Status400BadRequest);
 
       // ✅ Delete Vendor
@@ -82,7 +62,7 @@ namespace AgentSecure.Endpoint
         {
           return Results.NotFound($"No vendor found for Id {id}.");
         }
-        
+
         return Results.NoContent();
       })
       .WithName("DeleteVendor")

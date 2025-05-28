@@ -1,4 +1,5 @@
 using AgentSecure.Models;
+using AgentSecure.DTOs;
 
 namespace AgentSecure.Interfaces
 {
@@ -11,10 +12,10 @@ namespace AgentSecure.Interfaces
 
     // seed categories
 
-    Task<List<Vendor>> GetAllVendorsAsync();
-    Task<Vendor?> GetVendorByIdAsync(int id);
+    Task<List<VendorDto>> GetAllVendorsAsync();
+    Task<VendorDto?> GetVendorByIdAsync(int id);
     Task<Vendor> CreateVendorAsync(Vendor vendor);
-    Task<Vendor> UpdateVendorAsync(int id, Vendor vendor);
+    Task<VendorUpdateDto> UpdateVendorAsync(int id, VendorUpdateDto vendorUpdateDto);
     Task<Vendor> DeleteVendorAsync(int id);
   }
 }

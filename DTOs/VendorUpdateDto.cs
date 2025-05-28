@@ -1,6 +1,6 @@
 namespace AgentSecure.DTOs
 {
-  public class VendorDto
+  public class VendorUpdateDto
   {
     public string Name { get; set; }
     public string Website { get; set; }

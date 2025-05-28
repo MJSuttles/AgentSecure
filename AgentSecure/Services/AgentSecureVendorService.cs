@@ -1,6 +1,7 @@
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
 using AgentSecure.Repositories;
+using AgentSecure.DTOs;
 
 namespace AgentSecure.Services
 {
@@ -34,12 +35,12 @@ namespace AgentSecure.Services
 
     // seed data
 
-    public async Task<List<Vendor>> GetAllVendorsAsync()
+    public async Task<List<VendorDto>> GetAllVendorsAsync()
     {
       return await _agentSecureVendorRepository.GetAllVendorsAsync();
     }
 
-    public async Task<Vendor?> GetVendorByIdAsync(int id)
+    public async Task<VendorDto?> GetVendorByIdAsync(int id)
     {
       return await _agentSecureVendorRepository.GetVendorByIdAsync(id);
     }
@@ -49,9 +50,9 @@ namespace AgentSecure.Services
       return await _agentSecureVendorRepository.CreateVendorAsync(vendor);
     }
 
-    public async Task<Vendor> UpdateVendorAsync(int id, Vendor vendor)
+    public async Task<VendorUpdateDto> UpdateVendorAsync(int id, VendorUpdateDto vendorUpdateDto)
     {
-      return await _agentSecureVendorRepository.UpdateVendorAsync(id, vendor);
+      return await _agentSecureVendorRepository.UpdateVendorAsync(id, vendorUpdateDto);
     }
 
     public async Task<Vendor> DeleteVendorAsync(int id)
