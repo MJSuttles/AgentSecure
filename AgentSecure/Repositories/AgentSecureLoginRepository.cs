@@ -76,5 +76,17 @@ namespace AgentSecure.Repositories
     }
 
     // Delete a login
+
+    public async Task<Login> DeleteLoginAsync(int id)
+    {
+      var login = await _context.Logins.FindAsync(id);
+      if (login != null)
+      {
+        _context.Logins.Remove(login);
+        await _context.SaveChangesAsync();
+        return login;
+      }
+      return null;
+    }
   }
 }
