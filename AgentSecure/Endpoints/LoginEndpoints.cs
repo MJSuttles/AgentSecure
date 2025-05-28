@@ -50,9 +50,9 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status400BadRequest);
 
       // Update Login
-      group.MapPut("/{id}", async (int id, Login login, IAgentSecureLoginService agentSecureLoginService) =>
+      group.MapPut("/{id}", async (int id, LoginUpdateDto loginUpdateDto, IAgentSecureLoginService agentSecureLoginService) =>
       {
-        return await agentSecureLoginService.UpdateLoginAsync(id, login);
+        return await agentSecureLoginService.UpdateLoginAsync(id, loginUpdateDto);
       })
       .WithName("UpdateLogin")
       .WithOpenApi()
