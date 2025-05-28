@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
+using AgentSecure.DTOs;
 
 namespace AgentSecure.Endpoint
 {
@@ -27,7 +28,7 @@ namespace AgentSecure.Endpoint
       })
       .WithName("GetAllLogins")
       .WithOpenApi()
-      .Produces<List<Login>>(StatusCodes.Status200OK);
+      .Produces<List<LoginDto>>(StatusCodes.Status200OK);
 
       // Get Login by Id
       group.MapGet("/{id}", async (int id, IAgentSecureLoginService agentSecureLoginService) =>
@@ -36,7 +37,7 @@ namespace AgentSecure.Endpoint
       })
       .WithName("GetLoginById")
       .WithOpenApi()
-      .Produces<Login>(StatusCodes.Status200OK);
+      .Produces<LoginDto>(StatusCodes.Status200OK);
 
       // Create Login
       group.MapPost("/", async (Login login, IAgentSecureLoginService agentSecureLoginService) =>

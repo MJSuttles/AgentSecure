@@ -1,6 +1,7 @@
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
 using AgentSecure.Repositories;
+using AgentSecure.DTOs;
 
 namespace AgentSecure.Services
 {
@@ -34,12 +35,12 @@ namespace AgentSecure.Services
 
     // seed data
 
-    public async Task<List<Login>> GetAllLoginsAsync()
+    public async Task<List<LoginDto>> GetAllLoginsAsync()
     {
       return await _agentSecureLoginRepository.GetAllLoginsAsync();
     }
 
-    public async Task<Login?> GetLoginByIdAsync(int id)
+    public async Task<LoginDto?> GetLoginByIdAsync(int id)
     {
       return await _agentSecureLoginRepository.GetLoginByIdAsync(id);
     }
