@@ -21,5 +21,19 @@ namespace AgentSecure.Repositories
     }
 
     // Seed data
+
+    // Get all logins with related vendor and user info
+
+    public async Task<List<Login>> GetAllLoginsAsync()
+    {
+      return await _context.Logins
+        .Include(l => l.User)
+        .Include(l => l.Vendor)
+          .ThenInclude(v => v.VendorCategories)
+            .ThenInclude(vc => vc.Category)
+            .ToListAsync();
+    }
+
+
   }
 }
