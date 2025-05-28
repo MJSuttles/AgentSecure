@@ -11,5 +11,6 @@ namespace AgentSecure.Interfaces
 
     // seed categories
     Task<List<Login>> GetAllLoginsAsync();
+    Task<Login?> GetLoginByIdAsync(int id);
   }
 }
