@@ -49,6 +49,16 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status400BadRequest);
 
       // Update Login
+      group.MapPut("/{id}", async (int id, Login login, IAgentSecureLoginService agentSecureLoginService) =>
+      {
+        return await agentSecureLoginService.UpdateLoginAsync(id, login);
+      })
+      .WithName("UpdateLogin")
+      .WithOpenApi()
+      .Produces<Login>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status400BadRequest);
+
+      // Delete Login
     }
   }
 }
