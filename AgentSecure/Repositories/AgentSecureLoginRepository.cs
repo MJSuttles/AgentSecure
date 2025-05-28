@@ -56,5 +56,25 @@ namespace AgentSecure.Repositories
     }
 
     // Update an existing login
+
+    public async Task<Login> UpdateLoginAsync(int id, Login login)
+    {
+      var existingLogin = await _context.Logins.FindAsync(id);
+      if (existingLogin == null)
+      {
+        return null;
+      }
+
+      existingLogin.Username = login.Username;
+      existingLogin.Email = login.Email;
+      existingLogin.Password = login.Password;
+      existingLogin.RegApproved = login.RegApproved;
+      existingLogin.TrainingComplete = login.TrainingComplete;
+
+      await _context.SaveChangesAsync();
+      return existingLogin;
+    }
+
+    // Delete a login
   }
 }

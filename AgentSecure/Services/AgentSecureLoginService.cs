@@ -49,6 +49,11 @@ namespace AgentSecure.Services
       return await _agentSecureLoginRepository.CreateLoginAsync(login);
     }
 
+    public async Task<Login> UpdateLoginAsync(int id, Login login)
+    {
+      return await _agentSecureLoginRepository.UpdateLoginAsync(id, login);
+    }
+
 
   }
 }
