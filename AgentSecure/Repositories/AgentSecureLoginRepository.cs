@@ -46,6 +46,15 @@ namespace AgentSecure.Repositories
         .FirstOrDefaultAsync(l => l.Id == id);
     }
 
+    // Create a new login
 
+    public async Task<Login> CreateLoginAsync(Login login)
+    {
+      _context.Logins.Add(login);
+      await _context.SaveChangesAsync();
+      return login;
+    }
+
+    // Update an existing login
   }
 }
