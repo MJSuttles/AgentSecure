@@ -59,6 +59,13 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status400BadRequest);
 
       // Delete Login
+      group.MapDelete("/{id}", async (int id, IAgentSecureLoginService agentSecureLoginService) =>
+      {
+        return await agentSecureLoginService.DeleteLoginAsync(id);
+      })
+      .WithName("DeleteLogin")
+      .WithOpenApi()
+      .Produces<Login>(StatusCodes.Status204NoContent);
     }
   }
 }
