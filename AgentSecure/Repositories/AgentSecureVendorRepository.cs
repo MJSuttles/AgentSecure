@@ -26,6 +26,7 @@ namespace AgentSecure.Repositories
           .ThenInclude(vc => vc.Category)
         .Select(v => new VendorDto
         {
+          Id = v.Id,
           Name = v.Name,
           Website = v.Website,
           LoginWebsite = v.LoginWebsite,
@@ -49,6 +50,7 @@ namespace AgentSecure.Repositories
         .Where(v => v.Id == id)
         .Select(v => new VendorDto
         {
+          Id = v.Id,
           Name = v.Name,
           Website = v.Website,
           LoginWebsite = v.LoginWebsite,

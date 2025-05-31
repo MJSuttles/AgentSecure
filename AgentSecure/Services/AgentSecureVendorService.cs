@@ -55,7 +55,7 @@ namespace AgentSecure.Services
       return await _agentSecureVendorRepository.UpdateVendorAsync(id, vendorUpdateDto);
     }
 
-    public async Task<Vendor> DeleteVendorAsync(int id)
+    public async Task<Vendor?> DeleteVendorAsync(int id)
     {
       return await _agentSecureVendorRepository.DeleteVendorAsync(id);
     }
