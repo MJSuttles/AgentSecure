@@ -33,15 +33,7 @@ namespace AgentSecure.Tests
 {
   public class VendorTests
   {
-    // The BookService class is dependent on the IBookRepository interface.
-    // We do not need to mock the Book class because it is a simple class.
     private readonly AgentSecureVendorService _agentSecureVendorService;
-
-    // The Mock class is used to create a mock object of the IBookRepository interface.
-    // Mock objects are used to simulate the behavior of real objects.
-    // Mock objects are used in unit testing to isolate the code under test.
-    // We are mocking the IBookRepository interface because we do not want to test the actual implementation of the BookRepository class.
-    // Mock just means that we are creating a fake object that simulates the behavior of the real object.
     private readonly Mock<IAgentSecureVendorRepository> _mockVendorRepository;
 
     public VendorTests()
@@ -51,13 +43,51 @@ namespace AgentSecure.Tests
     }
 
     [Fact]
+    public async Task GetAllVendorsAsync_ShouldReturnListOfVendors()
+    {
+      // Arrange
+      var expectedVendors = new List<VendorDto>
+      {
+        new VendorDto
+        {
+          Id = 1,
+          Name = "Vendor 1",
+          Website = "www.vendor1.com",
+          LoginWebsite = "www.login.vendor1.com",
+          Phone = "111-222-3333",
+          Consortium = "Consortium A",
+          Description = "Test Vendor 1",
+          Categories = new List<string> { "Luxury", "Cruises"}
+        },
+        new VendorDto{
+          Id =2,
+          Name = "Vendor 2",
+          Website = "www.vendor2.com",
+          LoginWebsite = "www.login.vendor2.com",
+          Phone = "444-555-6666",
+          Consortium = "Consortium B",
+          Description = "Test Vendor 2",
+          Categories = new List<string> { "Adventure", "Tours"}
+        }
+      };
+
+      _mockVendorRepository.Setup(repo => repo.GetAllVendorsAsync()).ReturnsAsync(expectedVendors);
+
+      // Act
+      var actualVendors = await _agentSecureVendorService.GetAllVendorsAsync();
+
+      // Assert
+      Assert.Equal(expectedVendors.Count, actualVendors.Count);
+      Assert.Equal(expectedVendors[0].Name, actualVendors[0].Name);
+      Assert.Equal(expectedVendors[1].Name, actualVendors[1].Name);
+    }
+
+    [Fact]
     public async Task GetVendorByIdAsync_ShouldReturnVendor_WhenVendorExists()
     {
-      // Arrange - means to set up the test
+      // Arrange
       var vendorId = 1;
 
-      // Here, we are creating an instance of the Vendor class with the Id, Name, and IsActive properties set.
-      // The expectedVendor does not have to match the actual vendor in the repository.
       var expectedVendor = new VendorDto
       {
         Id = vendorId,
@@ -69,33 +99,23 @@ namespace AgentSecure.Tests
         Description = "A test vendor"
       };
 
-
-      // The Setup method is used to set up the behavior of the mock object.
-      // This means that when the GetVendorById method is called with the vendorId parameter, the mock object should return the expectedVendor instance.
-      // The expectedVendor is the object that we set up to be returned by the mock object.
       _mockVendorRepository.Setup(repo => repo.GetVendorByIdAsync(vendorId)).ReturnsAsync(expectedVendor);
 
+      // Arrange
 
-      // Act - means to run the test
-      // The GetVendorByIdAsync method is called with the vendorId parameter.
-      // The actual vendor returned by the GetVendorByIdAsync method comes from the mock object.
       var actualVendor = await _agentSecureVendorService.GetVendorByIdAsync(vendorId);
 
-      // Assert - means to check the result
-      // The actualVendor returned by the GetVendorByIdAsync method should be equal to the expectedVendor instance.
+      // Assert
       Assert.Equal(expectedVendor, actualVendor);
     }
 
     [Fact]
     public async Task GetVendorByIdAsync_ShouldReturnNull_WhenVendorDoesNotExist()
     {
-      // Act - means to run the test
-      // The GetVendorByIdAsync method is called with the vendorId parameter.
-      // The actual vendor returned by the GetVendorByIdAsync method comes from the mock object.
+      // Act
       var actualVendor = await _agentSecureVendorService.GetVendorByIdAsync(4);
 
-      // Assert - means to check the result
-      // The actualVendor returned by the GetVendorByIdAsync method should be equal to the expectedVendor instance.
+      // Assert
       Assert.Null(actualVendor);
     }
 
