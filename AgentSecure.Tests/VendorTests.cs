@@ -42,6 +42,8 @@ namespace AgentSecure.Tests
       _agentSecureVendorService = new AgentSecureVendorService(_mockVendorRepository.Object);
     }
 
+    // Test to check GetAllVendorsAsync call
+
     [Fact]
     public async Task GetAllVendorsAsync_ShouldReturnListOfVendors()
     {
@@ -82,6 +84,8 @@ namespace AgentSecure.Tests
       Assert.Equal(expectedVendors[1].Name, actualVendors[1].Name);
     }
 
+    // Tests to check GetVendorByIdAsync call
+
     [Fact]
     public async Task GetVendorByIdAsync_ShouldReturnVendor_WhenVendorExists()
     {
@@ -118,6 +122,8 @@ namespace AgentSecure.Tests
       // Assert
       Assert.Null(actualVendor);
     }
+
+
 
   }
 }
