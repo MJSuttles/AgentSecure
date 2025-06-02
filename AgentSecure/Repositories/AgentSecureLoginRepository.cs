@@ -30,6 +30,7 @@ namespace AgentSecure.Repositories
       return await _context.Logins
         .Select(l => new LoginDto
         {
+          Id = l.Id,
           Username = l.Username,
           Email = l.Email,
           Password = l.Password,
@@ -41,12 +42,13 @@ namespace AgentSecure.Repositories
 
     // Get a specific login by ID with related vendor and user info
 
-    public async Task<LoginDto> GetLoginByIdAsync(int id)
+    public async Task<LoginDto?> GetLoginByIdAsync(int id)
     {
       return await _context.Logins
         .Where(l => l.Id == id)
         .Select(l => new LoginDto
         {
+          Id = l.Id,
           Username = l.Username,
           Email = l.Email,
           Password = l.Password,
@@ -85,6 +87,7 @@ namespace AgentSecure.Repositories
 
       return new LoginUpdateDto
       {
+        Id = existingLogin.Id,
         Username = existingLogin.Username,
         Email = existingLogin.Email,
         Password = existingLogin.Password,
