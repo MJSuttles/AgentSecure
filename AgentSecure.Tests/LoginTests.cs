@@ -196,11 +196,11 @@ namespace AgentSecure.Tests
     }
 
     // Tests for DeleteLoginAsync
-
     [Fact]
     public async Task DeleteLoginAsync_ValidId_ShouldReturnDeletedLogin()
     {
       // Arrange
+
       var deletedLogin = new Login
       {
         Id = 1,
@@ -223,7 +223,7 @@ namespace AgentSecure.Tests
     public async Task DeleteLoginAsync_InvalidId_ShouldReturnNull()
     {
       // Arrange
-      _mockLoginRepository.Setup(repo => repo.DeleteLoginAsync(999)).ReturnsAsync((Login?)null!);
+      _mockLoginRepository.Setup(repo => repo.DeleteLoginAsync(999)).ReturnsAsync((Login?)null);
 
       // Act
       var actualLogin = await _agentSecureLoginService.DeleteLoginAsync(999);
@@ -232,5 +232,6 @@ namespace AgentSecure.Tests
       _mockLoginRepository.Verify(repo => repo.DeleteLoginAsync(999), Times.Once);
       Assert.Null(actualLogin);
     }
+
   }
 }
