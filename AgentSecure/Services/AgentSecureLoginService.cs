@@ -56,7 +56,7 @@ namespace AgentSecure.Services
     }
 
 
-    public async Task<Login> DeleteLoginAsync(int id)
+    public async Task<Login?> DeleteLoginAsync(int id)
     {
       return await _agentSecureLoginRepository.DeleteLoginAsync(id);
     }

@@ -16,6 +16,6 @@ namespace AgentSecure.Interfaces
     Task<VendorDto?> GetVendorByIdAsync(int id);
     Task<Vendor> CreateVendorAsync(Vendor vendor);
     Task<VendorUpdateDto> UpdateVendorAsync(int id, VendorUpdateDto vendorUpdateDto);
-    Task<Vendor> DeleteVendorAsync(int id);
+    Task<Vendor?> DeleteVendorAsync(int id);
   }
 }

@@ -2,7 +2,9 @@
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSecure", "AgentSecure.csproj", "{E09EEEBA-4B9B-8D8E-C49A-BCD21E3B3475}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSecure", ".\AgentSecure\AgentSecure.csproj", "{E09EEEBA-4B9B-8D8E-C49A-BCD21E3B3475}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentSecure.Tests", "AgentSecure.Tests\AgentSecure.Tests.csproj", "{A092BFF1-37C7-4D9D-A3E3-F6CDEE785AD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +20,10 @@ Global
 		{2D3C03EB-E80E-4A21-9658-3D728BBEE11A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D3C03EB-E80E-4A21-9658-3D728BBEE11A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D3C03EB-E80E-4A21-9658-3D728BBEE11A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A092BFF1-37C7-4D9D-A3E3-F6CDEE785AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A092BFF1-37C7-4D9D-A3E3-F6CDEE785AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A092BFF1-37C7-4D9D-A3E3-F6CDEE785AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A092BFF1-37C7-4D9D-A3E3-F6CDEE785AD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
