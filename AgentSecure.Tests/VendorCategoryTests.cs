@@ -71,6 +71,43 @@ namespace AgentSecure.Tests
       Assert.Null(actualVendorCategory);
     }
 
+    // Tests for DeleteVendorCategoryAsync
 
+    [Fact]
+    public async Task DeleteVendorCategoryAsync_ValidId_ShouldReturnDeletedVendorCategory()
+    {
+      // Arrange
+      var vendorCategory = new VendorCategory
+      {
+        Id = 1,
+        VendorId = 1,
+        CategoryId = 1
+      };
+
+      _mockVendorCategoryRepository
+        .Setup(repo => repo.DeleteVendorCategoryAsync(1))
+        .ReturnsAsync(vendorCategory);
+
+      // Act
+      var actualVendorCategory = await _agentSecureVendorCategoryService.DeleteVendorCategoryAsync(1);
+
+      // Assert
+      _mockVendorCategoryRepository.Verify(repo => repo.DeleteVendorCategoryAsync(1), Times.Once);
+      Assert.NotNull(actualVendorCategory);
+    }
+
+    [Fact]
+    public async Task DeleteVendorCategoryAsync_InvalidId_ShouldReturnNull()
+    {
+      // Arrange
+      _mockVendorCategoryRepository.Setup(repo => repo.DeleteVendorCategoryAsync(999)).ReturnsAsync((VendorCategory?)null!);
+
+      // Act
+      var actualVendorCategory = await _agentSecureVendorCategoryService.DeleteVendorCategoryAsync(999);
+
+      // Assert
+      _mockVendorCategoryRepository.Verify(repo => repo.DeleteVendorCategoryAsync(999), Times.Once);
+      Assert.Null(actualVendorCategory);
+    }
   }
 }
