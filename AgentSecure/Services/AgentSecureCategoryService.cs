@@ -29,7 +29,8 @@ namespace AgentSecure.Services
     // Create a new category
     public async Task<Category> CreateCategoryAsync(Category category)
     {
-      return await _agentSecureCategoryRepository.CreateCategoryAsync(category);
+      await _agentSecureCategoryRepository.CreateCategoryAsync(category);
+      return category;
     }
 
     // Update a category

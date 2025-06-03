@@ -20,6 +20,7 @@ namespace AgentSecure.Repositories
       return await _context.Users
         .Select(u => new UserProfileDto
         {
+          Id = u.Id,
           FirstName = u.FirstName,
           LastName = u.LastName,
           Email = u.Email,
@@ -38,6 +39,7 @@ namespace AgentSecure.Repositories
         .Where(u => u.Id == id)
         .Select(u => new UserProfileDto
         {
+          Id = u.Id,
           FirstName = u.FirstName,
           LastName = u.LastName,
           Email = u.Email,
@@ -65,6 +67,7 @@ namespace AgentSecure.Repositories
         return null;
       }
 
+      // Never change the primary key
       existingUser.FirstName = userProfileUpdateDto.FirstName;
       existingUser.LastName = userProfileUpdateDto.LastName;
       existingUser.Email = userProfileUpdateDto.Email;
@@ -78,6 +81,7 @@ namespace AgentSecure.Repositories
 
       return new UserProfileUpdateDto
       {
+        Id = existingUser.Id,
         FirstName = existingUser.FirstName,
         LastName = existingUser.LastName,
         Email = existingUser.Email,
@@ -98,6 +102,7 @@ namespace AgentSecure.Repositories
         await _context.SaveChangesAsync();
         return user;
       }
+
       return null;
     }
   }

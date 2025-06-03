@@ -1,6 +1,7 @@
 #nullable enable
 using Xunit;
 using Moq;
+using AgentSecure.Services;
 using AgentSecure.Models;
 using AgentSecure.Interfaces;
 using AgentSecure.DTOs;
