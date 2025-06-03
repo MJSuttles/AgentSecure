@@ -60,13 +60,28 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status400BadRequest);
 
       // Delete Login
+      // group.MapDelete("/{id}", async (int id, IAgentSecureLoginService agentSecureLoginService) =>
+      // {
+      //   return await agentSecureLoginService.DeleteLoginAsync(id);
+      // })
+      // .WithName("DeleteLogin")
+      // .WithOpenApi()
+      // .Produces<Login>(StatusCodes.Status204NoContent);
+
       group.MapDelete("/{id}", async (int id, IAgentSecureLoginService agentSecureLoginService) =>
       {
-        return await agentSecureLoginService.DeleteLoginAsync(id);
+        var deletedLogin = await agentSecureLoginService.DeleteLoginAsync(id);
+        if (deletedLogin == null)
+        {
+          return Results.NotFound($"No Login found for Id {id}.");
+        }
+
+        return Results.NoContent();
       })
       .WithName("DeleteLogin")
       .WithOpenApi()
-      .Produces<Login>(StatusCodes.Status204NoContent);
+      .Produces<Login>(StatusCodes.Status204NoContent)
+      .Produces(StatusCodes.Status404NotFound);
     }
   }
 }
