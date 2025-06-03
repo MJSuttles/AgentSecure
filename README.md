@@ -23,9 +23,9 @@ AgentSecure is a .NET 8 Web API for managing travel vendors, users, categories, 
 
 ## Loom Videos
 
-- Deployed Postman documentation:  
+- Deployed Postman documentation: https://www.loom.com/share/e5d78bbe3ad84d52b089821d23f3bf46
+  https://www.loom.com/share/a93a4de7caf247fe97f06f7e33723ad2
 
-- Unit Tests: 
+- Unit Tests: https://www.loom.com/share/e3b840782232445e8d1845b09c061a58
 
 - Artifacts:
-
