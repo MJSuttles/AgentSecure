@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AgentSecure.Migrations
 {
     [DbContext(typeof(AgentSecureDbContext))]
-    [Migration("20250528151203_UserProfileDTOEdit")]
-    partial class UserProfileDTOEdit
+    [Migration("20250603003630_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
