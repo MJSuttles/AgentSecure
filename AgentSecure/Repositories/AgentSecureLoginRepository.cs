@@ -41,6 +41,26 @@ namespace AgentSecure.Repositories
         .ToListAsync();
     }
 
+    // Get all logins for a specific User ID with related vendor info
+
+    public async Task<List<LoginDto>> GetLoginsByUserIdAsync(int userId)
+    {
+      return await _context.Logins
+        .Include(l => l.Vendor)
+        .Where(l => l.UserId == userId)
+        .Select(l => new LoginDto
+        {
+          Id = l.Id,
+          VendorName = l.Vendor.Name,
+          Username = l.Username,
+          Email = l.Email,
+          Password = l.Password,
+          RegApproved = l.RegApproved,
+          TrainingComplete = l.TrainingComplete
+        })
+        .ToListAsync();
+    }
+
     // Get a specific login by ID with related vendor and user info
 
     public async Task<LoginDto?> GetLoginByIdAsync(int id)
