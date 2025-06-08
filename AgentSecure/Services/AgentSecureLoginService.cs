@@ -40,6 +40,11 @@ namespace AgentSecure.Services
       return await _agentSecureLoginRepository.GetAllLoginsAsync();
     }
 
+    public async Task<List<LoginDto>> GetLoginsByUserIdAsync(int userId)
+    {
+      return await _agentSecureLoginRepository.GetLoginsByUserIdAsync(userId);
+    }
+
     public async Task<LoginDto?> GetLoginByIdAsync(int id)
     {
       return await _agentSecureLoginRepository.GetLoginByIdAsync(id);

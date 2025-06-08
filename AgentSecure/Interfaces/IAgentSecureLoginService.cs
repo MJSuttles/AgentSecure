@@ -13,6 +13,7 @@ namespace AgentSecure.Interfaces
     // seed categories
 
     Task<List<LoginDto>> GetAllLoginsAsync();
+    Task<List<LoginDto>> GetLoginsByUserIdAsync(int userId);
     Task<LoginDto?> GetLoginByIdAsync(int id);
     Task<Login> CreateLoginAsync(Login login);
     Task<LoginUpdateDto> UpdateLoginAsync(int id, LoginUpdateDto loginUpdateDto);

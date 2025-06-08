@@ -30,6 +30,15 @@ namespace AgentSecure.Endpoint
       .WithOpenApi()
       .Produces<List<LoginDto>>(StatusCodes.Status200OK);
 
+      // Get Logins by User Id
+      group.MapGet("/user/{userId}", async (int userId, IAgentSecureLoginService agentSecureLoginService) =>
+      {
+        return await agentSecureLoginService.GetLoginsByUserIdAsync(userId);
+      })
+      .WithName("GetLoginsByUserId")
+      .WithOpenApi()
+      .Produces<List<LoginDto>>(StatusCodes.Status200OK);
+
       // Get Login by Id
       group.MapGet("/{id}", async (int id, IAgentSecureLoginService agentSecureLoginService) =>
       {
