@@ -61,7 +61,7 @@ namespace AgentSecure.Services
       return await _agentSecureUserRepository.DeleteUserAsync(id);
     }
 
-    public async Task<User?> GetUserByFirebaseUidAsync(string firebaseUid)
+    public async Task<UserWithUidDto?> GetUserByFirebaseUidAsync(string firebaseUid)
     {
       return await _agentSecureUserRepository.GetUserByFirebaseUidAsync(firebaseUid);
     }
