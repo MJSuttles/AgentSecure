@@ -107,6 +107,16 @@ namespace AgentSecure.Endpoint
       .WithOpenApi()
       .Produces<User>(StatusCodes.Status204NoContent)
       .Produces(StatusCodes.Status404NotFound);
+
+      group.MapGet("/uid/{uid}", async (string uid, IAgentSecureUserService userService) =>
+      {
+        var user = await userService.GetUserByFirebaseUidAsync(uid);
+        return user is null ? Results.NotFound() : Results.Ok(user);
+      })
+      .WithName("GetUserByFirebaseUid")
+      .WithOpenApi()
+      .Produces<UserWithUidDto>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status404NotFound);
     }
   }
 }
