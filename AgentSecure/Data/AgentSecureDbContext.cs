@@ -17,6 +17,11 @@ namespace AgentSecure.Data
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
+      // Make Uid unique in the Users table
+      modelBuilder.Entity<User>()
+        .HasIndex(u => u.Uid)
+        .IsUnique();
+
       // Explicitly define the primary key for VendorCategory
       modelBuilder.Entity<VendorCategory>()
         .HasKey(vc => vc.Id);

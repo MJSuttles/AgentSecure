@@ -105,5 +105,10 @@ namespace AgentSecure.Repositories
 
       return null;
     }
+
+    public async Task<User?> GetUserByFirebaseUidAsync(string firebaseUid)
+    {
+      return await _context.Users.FirstOrDefaultAsync(u => u.Uid == firebaseUid);
+    }
   }
 }

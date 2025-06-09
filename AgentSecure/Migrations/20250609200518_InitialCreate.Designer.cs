@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AgentSecure.Migrations
 {
     [DbContext(typeof(AgentSecureDbContext))]
-    [Migration("20250603003630_InitialCreate")]
+    [Migration("20250609200518_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -271,6 +271,9 @@ namespace AgentSecure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Uid")
+                        .IsUnique();
 
                     b.ToTable("Users");
 

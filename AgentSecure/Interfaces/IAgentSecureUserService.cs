@@ -17,5 +17,6 @@ namespace AgentSecure.Interfaces
     Task<User> CreateUserAsync(User user);
     Task<UserProfileUpdateDto> UpdateUserAsync(int id, UserProfileUpdateDto userProfileUpdateDto);
     Task<User> DeleteUserAsync(int id);
+    Task<User?> GetUserByFirebaseUidAsync(string firebaseUid);
   }
 }
