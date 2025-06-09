@@ -1,39 +1,21 @@
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
-using AgentSecure.Repositories;
 using AgentSecure.DTOs;
 
 namespace AgentSecure.Services
 {
   public class AgentSecureLoginService : IAgentSecureLoginService
   {
-    // The service layer is responsible for processing business logic.
-    // Right now, the service layer is just calling the repository layer.
-    // The service layer will call the repository layer to do the actual CRUD operations.
-    // The service layer will return the data to the endpoint (controller).
-
     private readonly IAgentSecureLoginRepository _agentSecureLoginRepository;
+    private readonly IAgentSecureUserRepository _agentSecureUserRepository;
 
-    // This constructor is used for dependency injection.
-    // We are injecting the ISimplyBooksAuthorRepository interface into the SimplyBooksAuthorRepository class.
-    // We inject the repository interface instead of the actual repository class.
-    // This is because we can easily mock the interface for unit testing.
-    // It also makes our code more flexible and easier to maintain.
-    // The type of DI used here is called constructor injection.
-
-    public AgentSecureLoginService(IAgentSecureLoginRepository agentSecureLoginRepository)
+    public AgentSecureLoginService(
+      IAgentSecureLoginRepository agentSecureLoginRepository,
+      IAgentSecureUserRepository agentSecureUserRepository)
     {
       _agentSecureLoginRepository = agentSecureLoginRepository;
+      _agentSecureUserRepository = agentSecureUserRepository;
     }
-
-    // async means that the method is asynchronous.
-    // async methods can be awaited using the await keyword.
-    // async methods return a Task or Task<T>.
-    // Task represents an asynchronous operation that can return a value.
-    // Task<T> is a task that returns a value.
-    // To get the value, we use the await keyword.
-
-    // seed data
 
     public async Task<List<LoginDto>> GetAllLoginsAsync()
     {
@@ -50,16 +32,38 @@ namespace AgentSecure.Services
       return await _agentSecureLoginRepository.GetLoginByIdAsync(id);
     }
 
-    public async Task<Login> CreateLoginAsync(Login login)
+    public async Task<Login> CreateLoginAsync(Login loginPayload)
     {
-      return await _agentSecureLoginRepository.CreateLoginAsync(login);
+      if (loginPayload?.User?.Uid == null)
+      {
+        throw new ArgumentException("Firebase UID is missing in payload.");
+      }
+
+      var user = await _agentSecureUserRepository.GetUserByFirebaseUidAsync(loginPayload.User.Uid);
+
+      if (user == null)
+      {
+        throw new Exception($"No user found for UID: {loginPayload.User.Uid}");
+      }
+
+      var newLogin = new Login
+      {
+        UserId = user.Id,
+        VendorId = loginPayload.VendorId,
+        Username = loginPayload.Username,
+        Email = loginPayload.Email,
+        Password = loginPayload.Password,
+        RegApproved = loginPayload.RegApproved,
+        TrainingComplete = loginPayload.TrainingComplete
+      };
+
+      return await _agentSecureLoginRepository.CreateLoginAsync(newLogin);
     }
 
     public async Task<LoginUpdateDto> UpdateLoginAsync(int id, LoginUpdateDto loginUpdateDto)
     {
       return await _agentSecureLoginRepository.UpdateLoginAsync(id, loginUpdateDto);
     }
-
 
     public async Task<Login?> DeleteLoginAsync(int id)
     {

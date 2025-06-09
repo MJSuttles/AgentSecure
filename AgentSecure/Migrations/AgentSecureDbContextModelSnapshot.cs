@@ -269,6 +269,9 @@ namespace AgentSecure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Uid")
+                        .IsUnique();
+
                     b.ToTable("Users");
 
                     b.HasData(

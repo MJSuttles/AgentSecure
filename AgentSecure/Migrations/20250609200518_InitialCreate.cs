@@ -210,6 +210,12 @@ namespace AgentSecure.Migrations
                 column: "VendorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_Uid",
+                table: "Users",
+                column: "Uid",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_VendorCategories_CategoryId",
                 table: "VendorCategories",
                 column: "CategoryId");
