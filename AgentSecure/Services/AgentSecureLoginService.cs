@@ -1,6 +1,7 @@
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
 using AgentSecure.DTOs;
+using AgentSecure.Helpers;
 
 namespace AgentSecure.Services
 {
@@ -46,13 +47,16 @@ namespace AgentSecure.Services
         throw new Exception($"No user found for UID: {loginPayload.User.Uid}");
       }
 
+      // Encrypt the password before saving
+      string encryptedPassword = EncryptionHelper.Encrypt(loginPayload.Password);
+
       var newLogin = new Login
       {
         UserId = user.Id,
         VendorId = loginPayload.VendorId,
         Username = loginPayload.Username,
         Email = loginPayload.Email,
-        Password = loginPayload.Password,
+        Password = encryptedPassword,
         RegApproved = loginPayload.RegApproved,
         TrainingComplete = loginPayload.TrainingComplete
       };
@@ -68,6 +72,16 @@ namespace AgentSecure.Services
     public async Task<Login?> DeleteLoginAsync(int id)
     {
       return await _agentSecureLoginRepository.DeleteLoginAsync(id);
+    }
+
+    public async Task<bool> ChangePasswordAsync(ChangePasswordDto dto)
+    {
+      return await _agentSecureLoginRepository.ChangePasswordAsync(dto);
+    }
+
+    public async Task<string?> RevealPasswordByLoginIdAsync(int loginId)
+    {
+      return await _agentSecureLoginRepository.RevealPasswordByLoginIdAsync(loginId);
     }
   }
 }

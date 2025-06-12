@@ -2,26 +2,18 @@ using System.Runtime.InteropServices;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
 using AgentSecure.DTOs;
+using System.Text.RegularExpressions;
+using AgentSecure.Services;
 
 namespace AgentSecure.Endpoint
 {
   public static class LoginEndpoints
   {
-    // The endpoint layer is responsible for handling HTTP requests.
-    // The endpoint layer will call the service layer to process business logic.
-    // The endpoint layer will return the data to the client.
-    // The endpoint layer is the entry point for the client to access the application.
-    // We must register this MapWeatherEndpoints method in the Program.cs file.
-    // You can click the reference to see where it is registered in the Program.cs file.
-
     public static void MapLoginEndpoints(this IEndpointRouteBuilder routes)
     {
       var group = routes.MapGroup("/api/logins").WithTags(nameof(Login));
 
-      // API calls
-
       // Get All Logins
-
       group.MapGet("/", async (IAgentSecureLoginService agentSecureLoginService) =>
       {
         return await agentSecureLoginService.GetAllLoginsAsync();
@@ -38,6 +30,17 @@ namespace AgentSecure.Endpoint
       .WithName("GetLoginsByUserId")
       .WithOpenApi()
       .Produces<List<LoginDto>>(StatusCodes.Status200OK);
+
+      // Reveal Encrypted Password
+      group.MapGet("/reveal-password/{id}", async (int id, IAgentSecureLoginService agentSecureLoginService) =>
+      {
+        var password = await agentSecureLoginService.RevealPasswordByLoginIdAsync(id);
+        return password is not null ? Results.Ok(password) : Results.NotFound("Password not found or decryption failed.");
+      })
+      .WithName("RevealPassword")
+      .WithOpenApi()
+      .Produces<string>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status404NotFound);
 
       // Get Login by Id
       group.MapGet("/{id}", async (int id, IAgentSecureLoginService agentSecureLoginService) =>
@@ -65,11 +68,10 @@ namespace AgentSecure.Endpoint
       })
       .WithName("UpdateLogin")
       .WithOpenApi()
-      .Produces<Login>(StatusCodes.Status200OK)
+      .Produces<LoginUpdateDto>(StatusCodes.Status200OK)
       .Produces(StatusCodes.Status400BadRequest);
 
       // Delete Login
-
       group.MapDelete("/{id}", async (int id, IAgentSecureLoginService agentSecureLoginService) =>
       {
         var deletedLogin = await agentSecureLoginService.DeleteLoginAsync(id);
@@ -84,6 +86,25 @@ namespace AgentSecure.Endpoint
       .WithOpenApi()
       .Produces<Login>(StatusCodes.Status204NoContent)
       .Produces(StatusCodes.Status404NotFound);
+
+      // Change Password
+      group.MapPost("/change-password", async (ChangePasswordDto changePasswordDto, IAgentSecureLoginService agentSecureLoginService) =>
+      {
+        var success = await agentSecureLoginService.ChangePasswordAsync(changePasswordDto);
+
+        if (success)
+        {
+          return Results.Ok("Password changed successfully.");
+        }
+        else
+        {
+          return Results.BadRequest("Failed to change password.");
+        }
+      })
+      .WithName("ChangePassword")
+      .WithOpenApi()
+      .Produces(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status400BadRequest);
     }
   }
 }

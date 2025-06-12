@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using AgentSecure.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace AgentSecure.Data
 {
@@ -12,53 +11,53 @@ namespace AgentSecure.Data
     public DbSet<Vendor> Vendors { get; set; }
     public DbSet<VendorCategory> VendorCategories { get; set; }
 
-    public AgentSecureDbContext(DbContextOptions<AgentSecureDbContext> context) : base(context) { }
+    public AgentSecureDbContext(DbContextOptions<AgentSecureDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
-      // Make Uid unique in the Users table
+      // Unique constraint on Firebase UID
       modelBuilder.Entity<User>()
         .HasIndex(u => u.Uid)
         .IsUnique();
 
-      // Explicitly define the primary key for VendorCategory
+      // Primary key for VendorCategory
       modelBuilder.Entity<VendorCategory>()
         .HasKey(vc => vc.Id);
 
-      // Login => User (many-to-one)
+      // Relationships
       modelBuilder.Entity<Login>()
         .HasOne(l => l.User)
         .WithMany(u => u.Logins)
         .HasForeignKey(l => l.UserId)
         .OnDelete(DeleteBehavior.Cascade);
 
-      // Login => Vendor (many-to-one)
       modelBuilder.Entity<Login>()
         .HasOne(l => l.Vendor)
         .WithMany(v => v.Logins)
         .HasForeignKey(l => l.VendorId)
         .OnDelete(DeleteBehavior.Cascade);
 
-      // VendorCategory => Vendor (many-to-one)
       modelBuilder.Entity<VendorCategory>()
         .HasOne(vc => vc.Vendor)
         .WithMany(v => v.VendorCategories)
         .HasForeignKey(vc => vc.VendorId)
         .OnDelete(DeleteBehavior.Cascade);
 
-      // VendorCateogry => Category (many-to-one)
       modelBuilder.Entity<VendorCategory>()
         .HasOne(vc => vc.Category)
         .WithMany(c => c.VendorCategories)
         .HasForeignKey(vc => vc.CategoryId)
         .OnDelete(DeleteBehavior.Cascade);
 
+      // Seed data (Users, Vendors, Categories, etc.)
       modelBuilder.Entity<Category>().HasData(CategoryData.Categories);
-      modelBuilder.Entity<Login>().HasData(LoginData.Logins);
       modelBuilder.Entity<User>().HasData(UserData.Users);
       modelBuilder.Entity<Vendor>().HasData(VendorData.Vendors);
       modelBuilder.Entity<VendorCategory>().HasData(VendorCategoryData.VendorCategories);
+
+      // Important: Logins should only be seeded if the data includes hashed password + salt
+      modelBuilder.Entity<Login>().HasData(LoginData.GetEncryptedLogins());
+
     }
   }
 }

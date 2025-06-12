@@ -3,17 +3,12 @@ using AgentSecure.Data;
 using AgentSecure.Interfaces;
 using AgentSecure.Models;
 using AgentSecure.DTOs;
+using AgentSecure.Helpers;
 
 namespace AgentSecure.Repositories
 {
   public class AgentSecureLoginRepository : IAgentSecureLoginRepository
   {
-    // The repository layer is responsible for CRUD operations.
-    // This repository class implements the IWeatherForecastRepository interface.
-    // Remember: the interface is a contract that defines methods that a class MUST implement.
-    // The repository layer will call the database context to do the actual CRUD operations.
-    // The repository layer will return the data to the service layer.
-
     private readonly AgentSecureDbContext _context;
 
     public AgentSecureLoginRepository(AgentSecureDbContext context)
@@ -21,27 +16,23 @@ namespace AgentSecure.Repositories
       _context = context;
     }
 
-    // Seed data
-
-    // Get all logins with related vendor and user info
-
+    // Get all logins for the homepage
     public async Task<List<LoginDto>> GetAllLoginsAsync()
     {
       return await _context.Logins
+        .Include(l => l.Vendor)
         .Select(l => new LoginDto
         {
           Id = l.Id,
           VendorName = l.Vendor.Name,
           Username = l.Username,
           Email = l.Email,
-          Password = l.Password,
+          Password = "[HIDDEN]", // Do not show password
           RegApproved = l.RegApproved,
           TrainingComplete = l.TrainingComplete
         })
         .ToListAsync();
     }
-
-    // Get all logins for a specific User ID with related vendor info
 
     public async Task<List<LoginDto>> GetLoginsByUserIdAsync(int userId)
     {
@@ -54,14 +45,12 @@ namespace AgentSecure.Repositories
           VendorName = l.Vendor.Name,
           Username = l.Username,
           Email = l.Email,
-          Password = l.Password,
+          Password = EncryptionHelper.Decrypt(l.Password),
           RegApproved = l.RegApproved,
           TrainingComplete = l.TrainingComplete
         })
         .ToListAsync();
     }
-
-    // Get a specific login by ID with related vendor and user info
 
     public async Task<LoginDto?> GetLoginByIdAsync(int id)
     {
@@ -74,35 +63,30 @@ namespace AgentSecure.Repositories
           VendorName = l.Vendor.Name,
           Username = l.Username,
           Email = l.Email,
-          Password = l.Password,
+          Password = EncryptionHelper.Decrypt(l.Password),
           RegApproved = l.RegApproved,
           TrainingComplete = l.TrainingComplete
         })
         .FirstOrDefaultAsync();
     }
 
-    // Create a new login
-
     public async Task<Login> CreateLoginAsync(Login login)
     {
+      // Encrypt the password before storing it
+      login.Password = EncryptionHelper.Encrypt(login.Password);
       _context.Logins.Add(login);
       await _context.SaveChangesAsync();
       return login;
     }
 
-    // Update an existing login
-
     public async Task<LoginUpdateDto> UpdateLoginAsync(int id, LoginUpdateDto loginUpdateDto)
     {
       var existingLogin = await _context.Logins.FindAsync(id);
-      if (existingLogin == null)
-      {
-        return null;
-      }
+      if (existingLogin == null) return null;
 
       existingLogin.Username = loginUpdateDto.Username;
       existingLogin.Email = loginUpdateDto.Email;
-      existingLogin.Password = loginUpdateDto.Password;
+      existingLogin.Password = EncryptionHelper.Encrypt(loginUpdateDto.Password);
       existingLogin.RegApproved = loginUpdateDto.RegApproved;
       existingLogin.TrainingComplete = loginUpdateDto.TrainingComplete;
 
@@ -113,13 +97,11 @@ namespace AgentSecure.Repositories
         Id = existingLogin.Id,
         Username = existingLogin.Username,
         Email = existingLogin.Email,
-        Password = existingLogin.Password,
+        Password = "[HIDDEN]",
         RegApproved = existingLogin.RegApproved,
         TrainingComplete = existingLogin.TrainingComplete
       };
     }
-
-    // Delete a login
 
     public async Task<Login?> DeleteLoginAsync(int id)
     {
@@ -131,6 +113,39 @@ namespace AgentSecure.Repositories
         return login;
       }
       return null;
+    }
+
+    public async Task<bool> ChangePasswordAsync(ChangePasswordDto dto)
+    {
+      var login = await _context.Logins.FindAsync(dto.LoginId);
+      if (login == null) return false;
+
+      string decrypted = EncryptionHelper.Decrypt(login.Password);
+
+      if (dto.CurrentPassword != decrypted)
+      {
+        return false; // current password incorrect
+      }
+
+      login.Password = EncryptionHelper.Encrypt(dto.NewPassword);
+
+      await _context.SaveChangesAsync();
+      return true;
+    }
+
+    public async Task<string?> RevealPasswordByLoginIdAsync(int loginId)
+    {
+      var login = await _context.Logins.FindAsync(loginId);
+      if (login == null) return null;
+
+      try
+      {
+        return EncryptionHelper.Decrypt(login.Password);
+      }
+      catch
+      {
+        return null; // in case decryption fails
+      }
     }
   }
 }

@@ -2,6 +2,7 @@
 using AgentSecure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AgentSecure.Migrations
 {
     [DbContext(typeof(AgentSecureDbContext))]
-    partial class AgentSecureDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250612204840_RemoveHashingFields_AddEncryptedPassword")]
+    partial class RemoveHashingFields_AddEncryptedPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,7 +118,7 @@ namespace AgentSecure.Migrations
                         {
                             Id = 1,
                             Email = "alice.j@viking.com",
-                            Password = "yXKk9bUZDvhilCZmBZZwWg==",
+                            Password = "PasswordHere",
                             RegApproved = true,
                             TrainingComplete = true,
                             UserId = 1,
@@ -126,7 +129,7 @@ namespace AgentSecure.Migrations
                         {
                             Id = 2,
                             Email = "alice.s@sandals.com",
-                            Password = "jD6IFU9Zw3ZqcVH9HdB/kg==",
+                            Password = "PasswordHere",
                             RegApproved = true,
                             TrainingComplete = false,
                             UserId = 1,
@@ -137,7 +140,7 @@ namespace AgentSecure.Migrations
                         {
                             Id = 3,
                             Email = "alice.r@royal.com",
-                            Password = "nh1PjUN3V5PXiaIEMmLQFg==",
+                            Password = "PasswordHere",
                             RegApproved = false,
                             TrainingComplete = false,
                             UserId = 1,
@@ -148,7 +151,7 @@ namespace AgentSecure.Migrations
                         {
                             Id = 4,
                             Email = "alice.a@applevacs.com",
-                            Password = "3MzHP6In7L7tpBqNIjbnqA==",
+                            Password = "PasswordHere",
                             RegApproved = true,
                             TrainingComplete = true,
                             UserId = 1,
@@ -159,7 +162,7 @@ namespace AgentSecure.Migrations
                         {
                             Id = 5,
                             Email = "alice.d@disney.com",
-                            Password = "BrYessoH7fMuT/26siod/A==",
+                            Password = "PasswordHere",
                             RegApproved = true,
                             TrainingComplete = true,
                             UserId = 1,
@@ -170,7 +173,7 @@ namespace AgentSecure.Migrations
                         {
                             Id = 6,
                             Email = "bob.d@delta.com",
-                            Password = "NLAU0uwc8nP3vFtGQUe+ZQ==",
+                            Password = "PasswordHere",
                             RegApproved = true,
                             TrainingComplete = false,
                             UserId = 2,
@@ -181,7 +184,7 @@ namespace AgentSecure.Migrations
                         {
                             Id = 7,
                             Email = "bob.g@globus.com",
-                            Password = "98CAgGKZQhWP27CHT5bdzw==",
+                            Password = "PasswordHere",
                             RegApproved = false,
                             TrainingComplete = false,
                             UserId = 2,
@@ -192,7 +195,7 @@ namespace AgentSecure.Migrations
                         {
                             Id = 8,
                             Email = "bob.t@ti.com",
-                            Password = "ZME7dbf40cxMc54LL45z2A==",
+                            Password = "PasswordHere",
                             RegApproved = true,
                             TrainingComplete = true,
                             UserId = 2,
@@ -203,7 +206,7 @@ namespace AgentSecure.Migrations
                         {
                             Id = 9,
                             Email = "bob.e@expedia.com",
-                            Password = "UraK2iAw0DeDTsPtTBoB2w==",
+                            Password = "PasswordHere",
                             RegApproved = true,
                             TrainingComplete = false,
                             UserId = 2,
@@ -214,7 +217,7 @@ namespace AgentSecure.Migrations
                         {
                             Id = 10,
                             Email = "bob.a@amr.com",
-                            Password = "S58scxNNhgqzuZLjTz8CZw==",
+                            Password = "PasswordHere",
                             RegApproved = true,
                             TrainingComplete = true,
                             UserId = 2,
