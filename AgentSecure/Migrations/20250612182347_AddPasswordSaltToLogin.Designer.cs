@@ -2,6 +2,7 @@
 using AgentSecure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AgentSecure.Migrations
 {
     [DbContext(typeof(AgentSecureDbContext))]
-    partial class AgentSecureDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250612182347_AddPasswordSaltToLogin")]
+    partial class AddPasswordSaltToLogin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,7 +85,11 @@ namespace AgentSecure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("HashedPassword")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -115,7 +122,8 @@ namespace AgentSecure.Migrations
                         {
                             Id = 1,
                             Email = "alice.j@viking.com",
-                            Password = "yXKk9bUZDvhilCZmBZZwWg==",
+                            HashedPassword = "9VA/iVDzsQCGgzeG0Fw0RSlpaBlSamO9OzJzp0i79RE=",
+                            PasswordSalt = "R5xj8P2gu8AJE0KPsiq8yg==",
                             RegApproved = true,
                             TrainingComplete = true,
                             UserId = 1,
@@ -126,7 +134,8 @@ namespace AgentSecure.Migrations
                         {
                             Id = 2,
                             Email = "alice.s@sandals.com",
-                            Password = "jD6IFU9Zw3ZqcVH9HdB/kg==",
+                            HashedPassword = "CY8F8WQ8EYAbuZruzTaZDl+Nxu6bGqUXc4TY96hSbig=",
+                            PasswordSalt = "I6xXQrwYNAqj4e4YiYO5Og==",
                             RegApproved = true,
                             TrainingComplete = false,
                             UserId = 1,
@@ -137,7 +146,8 @@ namespace AgentSecure.Migrations
                         {
                             Id = 3,
                             Email = "alice.r@royal.com",
-                            Password = "nh1PjUN3V5PXiaIEMmLQFg==",
+                            HashedPassword = "k1Kmt7JLjWqTit4xVRXIYyDy7iORMGiBbdDQw2VGQfQ=",
+                            PasswordSalt = "D4+TXYlmXEBdUpjOLzW1Lg==",
                             RegApproved = false,
                             TrainingComplete = false,
                             UserId = 1,
@@ -148,7 +158,8 @@ namespace AgentSecure.Migrations
                         {
                             Id = 4,
                             Email = "alice.a@applevacs.com",
-                            Password = "3MzHP6In7L7tpBqNIjbnqA==",
+                            HashedPassword = "uej4OJedlWTIj0aub04BORDZ8HBoV7/IDbE97TAFobY=",
+                            PasswordSalt = "U+LP8KasPsSjPCZBFJ77DQ==",
                             RegApproved = true,
                             TrainingComplete = true,
                             UserId = 1,
@@ -159,7 +170,8 @@ namespace AgentSecure.Migrations
                         {
                             Id = 5,
                             Email = "alice.d@disney.com",
-                            Password = "BrYessoH7fMuT/26siod/A==",
+                            HashedPassword = "cPK/Sy7BpwyHs9dPA1T8U95aqknPjOrDJKDJ0ty1iLI=",
+                            PasswordSalt = "EvsjXDl1dqQiXyPgjYe5Ng==",
                             RegApproved = true,
                             TrainingComplete = true,
                             UserId = 1,
@@ -170,7 +182,8 @@ namespace AgentSecure.Migrations
                         {
                             Id = 6,
                             Email = "bob.d@delta.com",
-                            Password = "NLAU0uwc8nP3vFtGQUe+ZQ==",
+                            HashedPassword = "R83FOc1CdKqW8XaXxxdRFOdMwylwr1Ceqk7wDKpgDxA=",
+                            PasswordSalt = "VZ/gjVqFNCGwU52AEgkrBg==",
                             RegApproved = true,
                             TrainingComplete = false,
                             UserId = 2,
@@ -181,7 +194,8 @@ namespace AgentSecure.Migrations
                         {
                             Id = 7,
                             Email = "bob.g@globus.com",
-                            Password = "98CAgGKZQhWP27CHT5bdzw==",
+                            HashedPassword = "qUjlK+Rd7puN4WpSBWgF15RCEAKsgou7Xu/Yr9fCt7g=",
+                            PasswordSalt = "3REpqxWqz1Z40FixY4wqww==",
                             RegApproved = false,
                             TrainingComplete = false,
                             UserId = 2,
@@ -192,7 +206,8 @@ namespace AgentSecure.Migrations
                         {
                             Id = 8,
                             Email = "bob.t@ti.com",
-                            Password = "ZME7dbf40cxMc54LL45z2A==",
+                            HashedPassword = "q7mwv8gP6geiDjIrKeUi7Zzg8SxP3mdw7NVmiHwzIRg=",
+                            PasswordSalt = "GwQJtcq1mKzAZhLg6gun9Q==",
                             RegApproved = true,
                             TrainingComplete = true,
                             UserId = 2,
@@ -203,7 +218,8 @@ namespace AgentSecure.Migrations
                         {
                             Id = 9,
                             Email = "bob.e@expedia.com",
-                            Password = "UraK2iAw0DeDTsPtTBoB2w==",
+                            HashedPassword = "wqes201ndwzAYeiUGNzze1dR8c3o3bL+sk+PV+AgSS0=",
+                            PasswordSalt = "N5WevqxTGApq/mhPUy0yxA==",
                             RegApproved = true,
                             TrainingComplete = false,
                             UserId = 2,
@@ -214,7 +230,8 @@ namespace AgentSecure.Migrations
                         {
                             Id = 10,
                             Email = "bob.a@amr.com",
-                            Password = "S58scxNNhgqzuZLjTz8CZw==",
+                            HashedPassword = "AF+EGXI5FTlYEYOJnaHnAZxe3sClHhhF+I0mg4ki9/U=",
+                            PasswordSalt = "gwF0lFnI4pxLYUO1VxGO3w==",
                             RegApproved = true,
                             TrainingComplete = true,
                             UserId = 2,

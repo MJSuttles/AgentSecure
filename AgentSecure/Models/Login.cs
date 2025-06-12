@@ -15,7 +15,6 @@ namespace AgentSecure.Models
     public bool RegApproved { get; set; }
     public bool TrainingComplete { get; set; }
 
-    // Navigation properties
     public User User { get; set; }
     public Vendor Vendor { get; set; }
   }
