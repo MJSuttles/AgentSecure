@@ -88,23 +88,37 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status404NotFound);
 
       // Change Password
+      // group.MapPost("/change-password", async (ChangePasswordDto changePasswordDto, IAgentSecureLoginService agentSecureLoginService) =>
+      // {
+      //   var success = await agentSecureLoginService.ChangePasswordAsync(changePasswordDto);
+
+      //   if (success)
+      //   {
+      //     return Results.Ok(new { message = "Password changed successfully." });
+      //   }
+      //   else
+      //   {
+      //     return Results.BadRequest(new { message = "Failed to change password." });
+      //   }
+      // })
+      // .WithName("ChangePassword")
+      // .WithOpenApi()
+      // .Produces(StatusCodes.Status200OK)
+      // .Produces(StatusCodes.Status400BadRequest);
+
       group.MapPost("/change-password", async (ChangePasswordDto changePasswordDto, IAgentSecureLoginService agentSecureLoginService) =>
       {
+        if (changePasswordDto == null)
+        {
+          return Results.BadRequest(new { message = "DTO binding failed — null payload received." });
+        }
+
         var success = await agentSecureLoginService.ChangePasswordAsync(changePasswordDto);
 
-        if (success)
-        {
-          return Results.Ok("Password changed successfully.");
-        }
-        else
-        {
-          return Results.BadRequest("Failed to change password.");
-        }
-      })
-      .WithName("ChangePassword")
-      .WithOpenApi()
-      .Produces(StatusCodes.Status200OK)
-      .Produces(StatusCodes.Status400BadRequest);
+        return success
+          ? Results.Ok(new { message = "Password changed successfully." })
+          : Results.BadRequest(new { message = "Failed to change password." });
+      });
     }
   }
 }

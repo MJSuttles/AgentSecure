@@ -70,12 +70,18 @@ namespace AgentSecure.Repositories
         .FirstOrDefaultAsync();
     }
 
+    public async Task<Login?> GetLoginByIdRawAsync(int id)
+    {
+      return await _context.Logins.FindAsync(id);
+    }
+
     public async Task<Login> CreateLoginAsync(Login login)
     {
-      // Encrypt the password before storing it
-      login.Password = EncryptionHelper.Encrypt(login.Password);
+      login.Password = EncryptionHelper.Encrypt(login.Password); // Encrypt before saving
+
       _context.Logins.Add(login);
       await _context.SaveChangesAsync();
+
       return login;
     }
 
@@ -120,16 +126,14 @@ namespace AgentSecure.Repositories
       var login = await _context.Logins.FindAsync(dto.LoginId);
       if (login == null) return false;
 
-      string decrypted = EncryptionHelper.Decrypt(login.Password);
-
-      if (dto.CurrentPassword != decrypted)
+      if (dto.NewPassword != dto.ConfirmNewPassword)
       {
-        return false; // current password incorrect
+        return false;
       }
 
       login.Password = EncryptionHelper.Encrypt(dto.NewPassword);
-
       await _context.SaveChangesAsync();
+
       return true;
     }
 
