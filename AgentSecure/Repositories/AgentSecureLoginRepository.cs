@@ -101,7 +101,13 @@ namespace AgentSecure.Repositories
 
       existingLogin.Username = loginUpdateDto.Username;
       existingLogin.Email = loginUpdateDto.Email;
-      existingLogin.Password = EncryptionHelper.Encrypt(loginUpdateDto.Password);
+
+      // Only update password if a new one is provided and not empty or whitespace
+      if (!string.IsNullOrWhiteSpace(loginUpdateDto.Password))
+      {
+        existingLogin.Password = EncryptionHelper.Encrypt(loginUpdateDto.Password);
+      }
+
       existingLogin.RegApproved = loginUpdateDto.RegApproved;
       existingLogin.TrainingComplete = loginUpdateDto.TrainingComplete;
 
@@ -117,7 +123,6 @@ namespace AgentSecure.Repositories
         TrainingComplete = existingLogin.TrainingComplete
       };
     }
-
     public async Task<Login?> DeleteLoginAsync(int id)
     {
       var login = await _context.Logins.FindAsync(id);

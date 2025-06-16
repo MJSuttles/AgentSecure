@@ -9,11 +9,12 @@ namespace AgentSecure.Services
   {
     private readonly IAgentSecureLoginRepository _agentSecureLoginRepository;
     private readonly IAgentSecureUserRepository _agentSecureUserRepository;
+    private readonly IAgentSecureVendorRepository _agentSecureVendorRepository;
 
     public AgentSecureLoginService(
       IAgentSecureLoginRepository agentSecureLoginRepository,
       IAgentSecureUserRepository agentSecureUserRepository,
-      IAgentSecureVendorRepository agentSecureVendorRepository
+      IAgentSecureVendorRepository agentSecureVendorRepository)
     {
       _agentSecureLoginRepository = agentSecureLoginRepository;
       _agentSecureUserRepository = agentSecureUserRepository;
@@ -70,36 +71,19 @@ namespace AgentSecure.Services
 
       var createdLogin = await _agentSecureLoginRepository.CreateLoginAsync(newLogin);
 
-      // Return decrypted password and vendor name
+      // Return decrypted version for frontend use
       return new LoginDto
       {
         Id = createdLogin.Id,
         VendorName = vendor.Name,
         Username = createdLogin.Username,
         Email = createdLogin.Email,
-        Password = loginPayload.Password, // decrypted
+        Password = loginPayload.Password, // Decrypted
         RegApproved = createdLogin.RegApproved,
         TrainingComplete = createdLogin.TrainingComplete
       };
     }
 
-
-    // Encrypt the password before saving
-    string encryptedPassword = EncryptionHelper.Encrypt(loginPayload.Password);
-
-    var newLogin = new Login
-    {
-      UserId = user.Id,
-      VendorId = loginPayload.VendorId,
-      Username = loginPayload.Username,
-      Email = loginPayload.Email,
-      Password = encryptedPassword,
-      RegApproved = loginPayload.RegApproved,
-      TrainingComplete = loginPayload.TrainingComplete
-    };
-
-      return await _agentSecureLoginRepository.CreateLoginAsync(newLogin);
-    }
 
     public async Task<LoginUpdateDto> UpdateLoginAsync(int id, LoginUpdateDto loginUpdateDto)
     {
