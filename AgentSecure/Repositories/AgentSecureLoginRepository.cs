@@ -77,12 +77,21 @@ namespace AgentSecure.Repositories
 
     public async Task<Login> CreateLoginAsync(Login login)
     {
-      login.Password = EncryptionHelper.Encrypt(login.Password); // Encrypt before saving
-
+      // Only encrypt if not already encrypted (very basic check)
+      if (!IsProbablyEncrypted(login.Password))
+      {
+        login.Password = EncryptionHelper.Encrypt(login.Password);
+      }
       _context.Logins.Add(login);
       await _context.SaveChangesAsync();
-
       return login;
+    }
+
+    // Helper function
+    private bool IsProbablyEncrypted(string password)
+    {
+      // Example: check for base64 string of expected length
+      return password.Length % 4 == 0 && password.EndsWith("==");
     }
 
     public async Task<LoginUpdateDto> UpdateLoginAsync(int id, LoginUpdateDto loginUpdateDto)
@@ -144,11 +153,11 @@ namespace AgentSecure.Repositories
 
       try
       {
-        return EncryptionHelper.Decrypt(login.Password);
+        return EncryptionHelper.Decrypt(login.Password); // ✅ must decrypt
       }
       catch
       {
-        return null; // in case decryption fails
+        return null; // fallback in case decryption fails
       }
     }
   }

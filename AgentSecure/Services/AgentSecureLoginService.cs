@@ -12,10 +12,12 @@ namespace AgentSecure.Services
 
     public AgentSecureLoginService(
       IAgentSecureLoginRepository agentSecureLoginRepository,
-      IAgentSecureUserRepository agentSecureUserRepository)
+      IAgentSecureUserRepository agentSecureUserRepository,
+      IAgentSecureVendorRepository agentSecureVendorRepository
     {
       _agentSecureLoginRepository = agentSecureLoginRepository;
       _agentSecureUserRepository = agentSecureUserRepository;
+      _agentSecureVendorRepository = agentSecureVendorRepository;
     }
 
     public async Task<List<LoginDto>> GetAllLoginsAsync()
@@ -33,7 +35,7 @@ namespace AgentSecure.Services
       return await _agentSecureLoginRepository.GetLoginByIdAsync(id);
     }
 
-    public async Task<Login> CreateLoginAsync(Login loginPayload)
+    public async Task<LoginDto> CreateLoginAsync(Login loginPayload)
     {
       if (loginPayload?.User?.Uid == null)
       {
@@ -41,13 +43,18 @@ namespace AgentSecure.Services
       }
 
       var user = await _agentSecureUserRepository.GetUserByFirebaseUidAsync(loginPayload.User.Uid);
-
       if (user == null)
       {
         throw new Exception($"No user found for UID: {loginPayload.User.Uid}");
       }
 
-      // Encrypt the password before saving
+      var vendor = await _agentSecureVendorRepository.GetVendorByIdAsync(loginPayload.VendorId);
+      if (vendor == null)
+      {
+        throw new Exception($"No vendor found with ID: {loginPayload.VendorId}");
+      }
+
+      // Encrypt password before saving
       string encryptedPassword = EncryptionHelper.Encrypt(loginPayload.Password);
 
       var newLogin = new Login
@@ -60,6 +67,36 @@ namespace AgentSecure.Services
         RegApproved = loginPayload.RegApproved,
         TrainingComplete = loginPayload.TrainingComplete
       };
+
+      var createdLogin = await _agentSecureLoginRepository.CreateLoginAsync(newLogin);
+
+      // Return decrypted password and vendor name
+      return new LoginDto
+      {
+        Id = createdLogin.Id,
+        VendorName = vendor.Name,
+        Username = createdLogin.Username,
+        Email = createdLogin.Email,
+        Password = loginPayload.Password, // decrypted
+        RegApproved = createdLogin.RegApproved,
+        TrainingComplete = createdLogin.TrainingComplete
+      };
+    }
+
+
+    // Encrypt the password before saving
+    string encryptedPassword = EncryptionHelper.Encrypt(loginPayload.Password);
+
+    var newLogin = new Login
+    {
+      UserId = user.Id,
+      VendorId = loginPayload.VendorId,
+      Username = loginPayload.Username,
+      Email = loginPayload.Email,
+      Password = encryptedPassword,
+      RegApproved = loginPayload.RegApproved,
+      TrainingComplete = loginPayload.TrainingComplete
+    };
 
       return await _agentSecureLoginRepository.CreateLoginAsync(newLogin);
     }
