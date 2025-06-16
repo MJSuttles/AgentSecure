@@ -21,20 +21,28 @@ namespace AgentSecure.Services
       _agentSecureVendorRepository = agentSecureVendorRepository;
     }
 
+    // Get All Logins
+
     public async Task<List<LoginDto>> GetAllLoginsAsync()
     {
       return await _agentSecureLoginRepository.GetAllLoginsAsync();
     }
+
+    // Get Logins by User Id
 
     public async Task<List<LoginDto>> GetLoginsByUserIdAsync(int userId)
     {
       return await _agentSecureLoginRepository.GetLoginsByUserIdAsync(userId);
     }
 
+    // Get Login by Id
+
     public async Task<LoginDto?> GetLoginByIdAsync(int id)
     {
       return await _agentSecureLoginRepository.GetLoginByIdAsync(id);
     }
+
+    // Create Login
 
     public async Task<LoginDto> CreateLoginAsync(Login loginPayload)
     {
@@ -84,21 +92,28 @@ namespace AgentSecure.Services
       };
     }
 
+    // Update Login
 
     public async Task<LoginUpdateDto> UpdateLoginAsync(int id, LoginUpdateDto loginUpdateDto)
     {
       return await _agentSecureLoginRepository.UpdateLoginAsync(id, loginUpdateDto);
     }
 
+    // Delete Login
+
     public async Task<Login?> DeleteLoginAsync(int id)
     {
       return await _agentSecureLoginRepository.DeleteLoginAsync(id);
     }
 
+    // Change Password
+
     public async Task<bool> ChangePasswordAsync(ChangePasswordDto dto)
     {
       return await _agentSecureLoginRepository.ChangePasswordAsync(dto);
     }
+
+    // Reveal Password
 
     public async Task<string?> RevealPasswordByLoginIdAsync(int loginId)
     {

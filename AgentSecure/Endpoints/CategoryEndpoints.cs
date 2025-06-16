@@ -6,13 +6,6 @@ namespace AgentSecure.Endpoint
 {
   public static class CategoryEndpoints
   {
-    // The endpoint layer is responsible for handling HTTP requests.
-    // The endpoint layer will call the service layer to process business logic.
-    // The endpoint layer will return the data to the client.
-    // The endpoint layer is the entry point for the client to access the application.
-    // We must register this MapWeatherEndpoints method in the Program.cs file.
-    // You can click the reference to see where it is registered in the Program.cs file.
-
     public static void MapCategoryEndpoints(this IEndpointRouteBuilder routes)
     {
       var group = routes.MapGroup("/api/categories").WithTags(nameof(Category));
@@ -20,6 +13,7 @@ namespace AgentSecure.Endpoint
       // API calls
 
       // Get All Categories
+
       group.MapGet("/", async (IAgentSecureCategoryService agentSecureCategoryService) =>
       {
         return await agentSecureCategoryService.GetAllCategoriesAsync();
@@ -29,6 +23,7 @@ namespace AgentSecure.Endpoint
       .Produces<List<Category>>(StatusCodes.Status200OK);
 
       // Get Category by Id
+
       group.MapGet("/{id}", async (int id, IAgentSecureCategoryService agentSecureCategoryService) =>
       {
         return await agentSecureCategoryService.GetCategoryByIdAsync(id);
@@ -38,6 +33,7 @@ namespace AgentSecure.Endpoint
       .Produces<Category>(StatusCodes.Status200OK);
 
       // Create Category
+
       group.MapPost("/", async (Category category, IAgentSecureCategoryService agentSecureCategoryService) =>
       {
         return await agentSecureCategoryService.CreateCategoryAsync(category);
@@ -48,6 +44,7 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status400BadRequest);
 
       // Update Category
+
       group.MapPut("/{id}", async (int id, Category category, IAgentSecureCategoryService agentSecureCategoryService) =>
       {
         return await agentSecureCategoryService.UpdateCategoryAsync(id, category);
@@ -58,6 +55,7 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status400BadRequest);
 
       // Delete Category
+
       group.MapDelete("/{id}", async (int id, IAgentSecureCategoryService agentSecureCategoryService) =>
       {
         var deletedCategory = await agentSecureCategoryService.DeleteCategoryAsync(id);
@@ -65,7 +63,7 @@ namespace AgentSecure.Endpoint
         {
           return Results.NotFound($"No category found for Id {id}.");
         }
-        
+
         return Results.NoContent();
       })
       .WithName("DeleteCategory")

@@ -14,52 +14,47 @@ namespace AgentSecure.Services
     // The service layer will return the data to the endpoint (controller).
 
     private readonly IAgentSecureUserRepository _agentSecureUserRepository;
-
-    // This constructor is used for dependency injection.
-    // We are injecting the ISimplyBooksAuthorRepository interface into the SimplyBooksAuthorRepository class.
-    // We inject the repository interface instead of the actual repository class.
-    // This is because we can easily mock the interface for unit testing.
-    // It also makes our code more flexible and easier to maintain.
-    // The type of DI used here is called constructor injection.
-
     public AgentSecureUserService(IAgentSecureUserRepository agentSecureUserRepository)
     {
       _agentSecureUserRepository = agentSecureUserRepository;
     }
 
-    // async means that the method is asynchronous.
-    // async methods can be awaited using the await keyword.
-    // async methods return a Task or Task<T>.
-    // Task represents an asynchronous operation that can return a value.
-    // Task<T> is a task that returns a value.
-    // To get the value, we use the await keyword.
-
-    // seed data
+    // Get All Users
 
     public async Task<List<UserProfileDto>> GetAllUsersAsync()
     {
       return await _agentSecureUserRepository.GetAllUsersAsync();
     }
 
+    // Get User by Id
+
     public async Task<UserProfileDto?> GetUserByIdAsync(int id)
     {
       return await _agentSecureUserRepository.GetUserByIdAsync(id);
     }
+
+    // Create User
 
     public async Task<User> CreateUserAsync(User user)
     {
       return await _agentSecureUserRepository.CreateUserAsync(user);
     }
 
+    // Update User
+
     public async Task<UserProfileUpdateDto> UpdateUserAsync(int id, UserProfileUpdateDto userProfileUpdateDto)
     {
       return await _agentSecureUserRepository.UpdateUserAsync(id, userProfileUpdateDto);
     }
 
+    // Delete User
+
     public async Task<User> DeleteUserAsync(int id)
     {
       return await _agentSecureUserRepository.DeleteUserAsync(id);
     }
+
+    // Get User by Firebase Id
 
     public async Task<UserWithUidDto?> GetUserByFirebaseUidAsync(string firebaseUid)
     {

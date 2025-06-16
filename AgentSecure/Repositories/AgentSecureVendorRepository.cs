@@ -8,9 +8,6 @@ namespace AgentSecure.Repositories
 {
   public class AgentSecureVendorRepository : IAgentSecureVendorRepository
   {
-    // The repository layer is responsible for CRUD operations.
-    // This class implements IAgentSecureVendorRepository and uses the injected DbContext
-
     private readonly AgentSecureDbContext _context;
 
     public AgentSecureVendorRepository(AgentSecureDbContext context)
@@ -131,7 +128,7 @@ namespace AgentSecure.Repositories
 
 
     // ✅ Delete a vendor
-    public async Task<Vendor> DeleteVendorAsync(int id)
+    public async Task<Vendor?> DeleteVendorAsync(int id)
     {
       var vendor = await _context.Vendors.FindAsync(id);
       if (vendor != null)
