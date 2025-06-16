@@ -12,6 +12,7 @@ namespace AgentSecure.Endpoint
       var group = routes.MapGroup("/api/vendors").WithTags(nameof(Vendor));
 
       // ✅ Get All Vendors
+
       group.MapGet("/", async (IAgentSecureVendorService service) =>
       {
         return await service.GetAllVendorsAsync();
@@ -21,6 +22,7 @@ namespace AgentSecure.Endpoint
       .Produces<List<VendorDto>>(StatusCodes.Status200OK);
 
       // ✅ Get Vendor by Id
+
       group.MapGet("/{id}", async (int id, IAgentSecureVendorService service) =>
       {
         var vendor = await service.GetVendorByIdAsync(id);
@@ -35,6 +37,7 @@ namespace AgentSecure.Endpoint
 
 
       // ✅ Create Vendor
+
       group.MapPost("/", async (Vendor vendor, IAgentSecureVendorService agentSecureVendorService) =>
       {
         return await agentSecureVendorService.CreateVendorAsync(vendor);
@@ -45,6 +48,7 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status400BadRequest);
 
       // ✅ Update Vendor
+
       group.MapPut("/{id}", async (int id, VendorUpdateDto vendorUpdateDto, IAgentSecureVendorService agentSecureVendorService) =>
       {
         return await agentSecureVendorService.UpdateVendorAsync(id, vendorUpdateDto);
@@ -55,6 +59,7 @@ namespace AgentSecure.Endpoint
       .Produces(StatusCodes.Status400BadRequest);
 
       // ✅ Delete Vendor
+
       group.MapDelete("/{id}", async (int id, IAgentSecureVendorService agentSecureVendorService) =>
       {
         var deletedVendor = await agentSecureVendorService.DeleteVendorAsync(id);

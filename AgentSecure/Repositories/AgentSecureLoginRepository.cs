@@ -34,6 +34,8 @@ namespace AgentSecure.Repositories
         .ToListAsync();
     }
 
+    // Get Logins by UserId
+
     public async Task<List<LoginDto>> GetLoginsByUserIdAsync(int userId)
     {
       return await _context.Logins
@@ -51,6 +53,8 @@ namespace AgentSecure.Repositories
         })
         .ToListAsync();
     }
+
+    // Get Login by Id
 
     public async Task<LoginDto?> GetLoginByIdAsync(int id)
     {
@@ -94,6 +98,8 @@ namespace AgentSecure.Repositories
       return password.Length % 4 == 0 && password.EndsWith("==");
     }
 
+    // Update Login
+
     public async Task<LoginUpdateDto> UpdateLoginAsync(int id, LoginUpdateDto loginUpdateDto)
     {
       var existingLogin = await _context.Logins.FindAsync(id);
@@ -123,6 +129,8 @@ namespace AgentSecure.Repositories
         TrainingComplete = existingLogin.TrainingComplete
       };
     }
+    // Delete Login
+
     public async Task<Login?> DeleteLoginAsync(int id)
     {
       var login = await _context.Logins.FindAsync(id);
@@ -150,6 +158,8 @@ namespace AgentSecure.Repositories
 
       return true;
     }
+
+    // Reveal Hidden Password
 
     public async Task<string?> RevealPasswordByLoginIdAsync(int loginId)
     {

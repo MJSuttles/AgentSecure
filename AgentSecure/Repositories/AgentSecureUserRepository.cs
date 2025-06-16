@@ -15,6 +15,8 @@ namespace AgentSecure.Repositories
       _context = context;
     }
 
+    // Get All Users
+
     public async Task<List<UserProfileDto>> GetAllUsersAsync()
     {
       return await _context.Users
@@ -32,6 +34,8 @@ namespace AgentSecure.Repositories
         })
         .ToListAsync();
     }
+
+    // Get User by Id
 
     public async Task<UserProfileDto?> GetUserByIdAsync(int id)
     {
@@ -52,6 +56,8 @@ namespace AgentSecure.Repositories
         .FirstOrDefaultAsync();
     }
 
+    // Create User
+
     public async Task<User> CreateUserAsync(User user)
     {
       _context.Users.Add(user);
@@ -67,7 +73,6 @@ namespace AgentSecure.Repositories
         return null;
       }
 
-      // Never change the primary key
       existingUser.FirstName = userProfileUpdateDto.FirstName;
       existingUser.LastName = userProfileUpdateDto.LastName;
       existingUser.Email = userProfileUpdateDto.Email;
@@ -93,6 +98,8 @@ namespace AgentSecure.Repositories
       };
     }
 
+    // Delete User
+
     public async Task<User> DeleteUserAsync(int id)
     {
       var user = await _context.Users.FindAsync(id);
@@ -105,6 +112,8 @@ namespace AgentSecure.Repositories
 
       return null;
     }
+
+    // Get User by Firebase Uid
 
     public async Task<UserWithUidDto?> GetUserByFirebaseUidAsync(string firebaseUid)
     {

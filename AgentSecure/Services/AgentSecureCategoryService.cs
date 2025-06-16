@@ -40,7 +40,7 @@ namespace AgentSecure.Services
     }
 
     // Delete a category
-    public async Task<Category> DeleteCategoryAsync(int id)
+    public async Task<Category?> DeleteCategoryAsync(int id)
     {
       return await _agentSecureCategoryRepository.DeleteCategoryAsync(id);
     }
