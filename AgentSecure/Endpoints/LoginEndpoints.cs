@@ -31,16 +31,11 @@ namespace AgentSecure.Endpoint
       .WithOpenApi()
       .Produces<List<LoginDto>>(StatusCodes.Status200OK);
 
-      // Reveal Encrypted Password
-      group.MapGet("/reveal-password/{id}", async (int id, IAgentSecureLoginService agentSecureLoginService) =>
+      group.MapGet("/reveal-password/{id}", async (int id, IAgentSecureLoginService service) =>
       {
-        var password = await agentSecureLoginService.RevealPasswordByLoginIdAsync(id);
-        return password is not null ? Results.Ok(password) : Results.NotFound("Password not found or decryption failed.");
-      })
-      .WithName("RevealPassword")
-      .WithOpenApi()
-      .Produces<string>(StatusCodes.Status200OK)
-      .Produces(StatusCodes.Status404NotFound);
+        var password = await service.RevealPasswordByLoginIdAsync(id);
+        return password is not null ? Results.Ok(password) : Results.NotFound("Decryption failed.");
+      });
 
       // Get Login by Id
       group.MapGet("/{id}", async (int id, IAgentSecureLoginService agentSecureLoginService) =>
@@ -51,15 +46,16 @@ namespace AgentSecure.Endpoint
       .WithOpenApi()
       .Produces<LoginDto>(StatusCodes.Status200OK);
 
-      // Create Login
       group.MapPost("/", async (Login login, IAgentSecureLoginService agentSecureLoginService) =>
-      {
-        return await agentSecureLoginService.CreateLoginAsync(login);
-      })
-      .WithName("CreateLogin")
-      .WithOpenApi()
-      .Produces<Login>(StatusCodes.Status201Created)
-      .Produces(StatusCodes.Status400BadRequest);
+    {
+      var createdLogin = await agentSecureLoginService.CreateLoginAsync(login);
+      return Results.Created($"/api/logins/{createdLogin.Id}", createdLogin);
+    })
+    .WithName("CreateLogin")
+    .WithOpenApi()
+    .Produces<LoginDto>(StatusCodes.Status201Created)
+    .Produces(StatusCodes.Status400BadRequest);
+
 
       // Update Login
       group.MapPut("/{id}", async (int id, LoginUpdateDto loginUpdateDto, IAgentSecureLoginService agentSecureLoginService) =>
